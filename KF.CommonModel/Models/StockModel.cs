@@ -1,4 +1,5 @@
-﻿using KF.Core.DomainModels;
+﻿using KF.Core.Data;
+using KF.Core.DomainModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace KF.CommonModel.Models
 {
-    public class StockModel
+    public class StockModel : BaseEntity
     {
         
         public Guid StockId { get; set; }

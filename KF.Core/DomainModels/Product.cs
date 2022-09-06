@@ -1,9 +1,10 @@
-﻿using System;
+﻿using KF.Core.Data;
+using System;
 using System.Collections.Generic;
 
 namespace KF.Core.DomainModels
 {
-    public partial class Product
+    public partial class Product : BaseEntity
     {
         public Guid ProductId { get; set; }
         public string Name { get; set; } = null!;

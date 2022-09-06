@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KF.Core.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace KF.CommonModel.Models
 {
-    public class ProductModel
+    public class ProductModel : BaseEntity
     {
         public Guid ProductId { get; set; }
         public string Name { get; set; } = null!;
