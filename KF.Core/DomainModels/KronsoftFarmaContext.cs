@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using KF.Core.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace KF.Core.DomainModels
 {
-    public partial class KronsoftFarmaContext : DbContext
+    public partial class KronsoftFarmaContext : DbContext, IDbContext
     {
         public KronsoftFarmaContext()
         {
@@ -59,11 +60,11 @@ namespace KF.Core.DomainModels
 
             modelBuilder.Entity<User>(entity =>
             {
-                //entity.ToTable("User");
+                entity.ToTable("User");
 
                 entity.Property(e => e.UserId).HasDefaultValueSql("(newid())");
 
-                entity.Property(e => e.UserId).HasColumnName("isAdmin");
+                //entity.Property(e => e.UserId).HasColumnName("isAdmin");
 
                 entity.Property(e => e.Password).HasMaxLength(50);
 
@@ -74,5 +75,18 @@ namespace KF.Core.DomainModels
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
+        #region Methods
+        public virtual new DbSet<TEntity> Set<TEntity>() where TEntity : BaseEntity
+        {
+            return base.Set<TEntity>();
+        }
+
+        public override int SaveChanges()
+        {
+            return base.SaveChanges();
+        }
+
+        #endregion
     }
 }

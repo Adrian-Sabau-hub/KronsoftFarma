@@ -10,7 +10,8 @@ namespace KF.Common.Model.Automapper
         public MappingProfile()
         {
             CreateMap<Product, ProductModel>();
-            CreateMap<ProductModel, Product>();
+            CreateMap<ProductModel, Product>()
+                .ForMember(s => s.Stock, d => d.Ignore());
 
             CreateMap<Stock, StockModel>();
             CreateMap<StockModel, Stock>();
