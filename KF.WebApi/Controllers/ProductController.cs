@@ -1,5 +1,6 @@
 ﻿using KF.CommonModel.Models;
 using KF.Services.Product;
+using KF.Services.Stock;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 
@@ -10,11 +11,13 @@ namespace KF.WebApi.Controllers
 
     public class ProductController : Controller
     {
+        IStockService _stockService;
         IProductService _productService;
 
-        public ProductController(IProductService productService)
+        public ProductController(IProductService productService, IStockService stockService)
         {
             _productService = productService;
+            _stockService = stockService;
         }
 
         // Get by id
@@ -79,26 +82,32 @@ namespace KF.WebApi.Controllers
         {
             try
             {
+                var stockData = _stockService.GetStocks();
+
+                var stock = stockData.FirstOrDefault(s => s.ProductId == id);
+
+                if(stock != null)
+                    _stockService.RemoveStockById(stock.StockId);
+
                 _productService.RemoveProductById(id);
+
                 return true;
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message.ToString());
             }
-            //return false;
         }
 
         // Update
 
         [Route("/api/Products/{id}")]
         [HttpPut]
-        public ProductModel Update(Guid id, [FromBody] JsonElement product)
+        public ProductModel Update(Guid id, [FromBody] ProductModel product)
         {
             try
             {
-                var productModel = JsonSerializer.Deserialize<ProductModel>(product);
-                ProductModel updatedProduct = _productService.UpdateProduct(productModel);
+                ProductModel updatedProduct = _productService.UpdateProduct(product);
                 return updatedProduct;
             }
             catch (Exception ex)
@@ -107,46 +116,5 @@ namespace KF.WebApi.Controllers
             }
         }
 
-        //// GET: ProductController/Edit/5
-        //public ActionResult Edit(int id)
-        //{
-        //    return View();
-        //}
-
-        //// POST: ProductController/Edit/5
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Edit(int id, IFormCollection collection)
-        //{
-        //    try
-        //    {
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
-
-        //// GET: ProductController/Delete/5
-        //public ActionResult Delete(int id)
-        //{
-        //    return View();
-        //}
-
-        //// POST: ProductController/Delete/5
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Delete(int id, IFormCollection collection)
-        //{
-        //    try
-        //    {
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
     }
 }

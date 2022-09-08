@@ -1,6 +1,7 @@
 ﻿using KF.CommonModel.Models;
 using KF.Services.User;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 using System.Text.Json;
 
 namespace KF.Web.API.Controllers
@@ -18,7 +19,7 @@ namespace KF.Web.API.Controllers
 
         // Get
 
-        [Route("/api/User")]
+        [Route("/api/Users")]
         [HttpGet]
         public IEnumerable<UserModel> Get()
         {
@@ -37,7 +38,7 @@ namespace KF.Web.API.Controllers
 
         // Get by id
 
-        [Route("/api/User/{id}")]
+        [Route("/api/Users/{id}")]
         [HttpGet]
         public UserModel Get(Guid id)
         {
@@ -55,7 +56,7 @@ namespace KF.Web.API.Controllers
 
         // Create
 
-        [Route("/api/User")]
+        [Route("/api/Users")]
         [HttpPost]
         public UserModel Create([FromBody] UserModel user)
         {
@@ -73,7 +74,7 @@ namespace KF.Web.API.Controllers
 
         // Delete
 
-        [Route("/api/User/{id}")]
+        [Route("/api/Users/{id}")]
         [HttpDelete]
         public bool RemoveUserById(Guid id)
         {
@@ -90,14 +91,13 @@ namespace KF.Web.API.Controllers
 
         // Update
 
-        [Route("/api/User/{id}")]
+        [Route("/api/Users/{id}")]
         [HttpPut]
-        public UserModel Update(Guid id, [FromBody] JsonElement user)
+        public UserModel Update(Guid id, [FromBody] UserModel user)
         {
             try
             {
-                var userModel = JsonSerializer.Deserialize<UserModel>(user);
-                UserModel updatedUser = _userService.UpdateUser(userModel);
+                UserModel updatedUser = _userService.UpdateUser(user);
                 return updatedUser;
             }
             catch (Exception ex)
@@ -105,5 +105,6 @@ namespace KF.Web.API.Controllers
                 throw new Exception(ex.Message.ToString());
             }
         }
+
     }
 }
