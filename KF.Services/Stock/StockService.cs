@@ -1,6 +1,7 @@
 ﻿using KF.Common.Model.Automapper;
 using KF.CommonModel.Models;
 using KF.Core.Data;
+using KF.Core.DomainModels;
 
 namespace KF.Services.Stock
 {
@@ -28,6 +29,12 @@ namespace KF.Services.Stock
         public StockModel GetStockById(Guid stockId)
         {
             var stock = stockRepository.Table.FirstOrDefault(s => s.StockId == stockId);
+            return stock.ToModel();
+        }
+
+        public StockModel GetStockByProductId(Guid productId)
+        {
+            var stock = stockRepository.Table.FirstOrDefault(s => s.ProductId == productId);
             return stock.ToModel();
         }
 

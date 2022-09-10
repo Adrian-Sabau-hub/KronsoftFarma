@@ -49,7 +49,24 @@ namespace KF.WebApi.Controllers
             }
         }
 
-        // Update
+        // Get stock by product id
+
+        [Route("/api/Stocks/{productId}")]
+        [HttpGet]
+        public StockModel GetStockByProductId([FromRoute] Guid productId)
+        {
+            try
+            {
+                StockModel stock = _stockService.GetStockByProductId(productId);
+                ProductModel product = _productService.GetProductById(productId);
+                stock.ProductName = product.Name;   
+                return stock;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message.ToString());
+            }
+        }
 
         // Update
 

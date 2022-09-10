@@ -24,7 +24,7 @@ namespace KF.WebApi.Controllers
 
         [Route("/api/Products/{id}")]
         [HttpGet]
-        public ProductModel GetById([FromQuery] Guid id)
+        public ProductModel GetById([FromRoute] Guid id)
         {
             try
             {

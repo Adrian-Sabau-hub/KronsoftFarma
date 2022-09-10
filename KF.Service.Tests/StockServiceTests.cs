@@ -48,18 +48,19 @@ namespace KF.Service.Tests
         }
 
         [Test]
-        public void GetStockByIdTest()
+        public void GetStockByProductIdTest()
         {
             //arrange
             StockService service = GetService();
 
             //act
-            String source = "BC48BD3F-BC75-44CA-8FDA-2C0AB68C7379";
-            Guid result = new Guid(source);
-            var stock = service.GetStockById(result);
+            String productId = "3fa85f64-5717-4562-b3fc-2c963f66afa6";
+            Guid result = new Guid(productId);
+            var stock = service.GetStockByProductId(result);
 
             //assert
-            Assert.That(stock != null);
+            Assert.IsNotNull(stock);
+            //Assert.That(stock != null);
 
         }
 
@@ -116,11 +117,11 @@ namespace KF.Service.Tests
                 createdStockId = createdStock.StockId;
 
                 //act
-                service.RemoveStockById(createdStock.StockId);
-                var deletedStock = service.GetStockById(createdStock.StockId);
+                service.RemoveStockById(createdStockId);
+                var deletedStock = service.GetStockById(createdStockId);
 
                 //assert
-                Assert.IsNull(createdStock);
+                Assert.IsNull(deletedStock);
                 //Assert.That(deletedStock == null);
             }
             catch (Exception)
@@ -138,28 +139,31 @@ namespace KF.Service.Tests
         public void UpdateStockTest()
         {
             StockService service = GetService();
+            ProductService serviceProduct = GetServiceProduct();
             Guid createdStockId = Guid.Empty;
+            Guid createdProductId = Guid.Empty;
 
             try
             {
                 //arrange
-                String productId = "3FA85F64-5717-4562-B3FC-2C963F66AFA6";
-                Guid result = new Guid(productId);
-                Stock stock = CreateStockModel(result,999);
+                Product product = CreateProductModel("Test", "Testing", 110, "Test");
+                ProductModel createdProduct = serviceProduct.CreateProduct(product.ToModel());
+                createdProductId = createdProduct.ProductId;
+                Stock stock = CreateStockModel(createdProductId,999);
                 StockModel createdStock = service.CreateStock(stock.ToModel());
                 createdStockId = createdStock.StockId;
 
                 //act
                 Setup();
                 service = GetService();
+                serviceProduct = GetServiceProduct();
                 createdStock.Quantity = 888;
                 service.UpdateStock(createdStock);
                 var updatedStock = service.GetStockById(createdStockId);
 
                 //assert
-                Assert.That(updatedStock != null);
-                //Assert.That(updatedStock.ProductId == stock.ProductId);
-                Assert.That(updatedStock.Quantity == 888);
+                Assert.IsNotNull(updatedStock);
+                Assert.That(updatedStock.Quantity, Is.EqualTo(888));
 
             }
             catch (Exception)
@@ -169,6 +173,7 @@ namespace KF.Service.Tests
             finally
             {
                 service.RemoveStockById(createdStockId);
+                serviceProduct.RemoveProductById(createdProductId);
             }
 
         }

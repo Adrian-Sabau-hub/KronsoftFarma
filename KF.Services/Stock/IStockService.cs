@@ -11,6 +11,7 @@ namespace KF.Services.Stock
     {
         IEnumerable<StockModel> GetStocks();
         StockModel GetStockById(Guid stockId);
+        StockModel GetStockByProductId(Guid productId);
         bool RemoveStockById(Guid stockId);
         StockModel CreateStock(StockModel stock);
         StockModel UpdateStock(StockModel stock);

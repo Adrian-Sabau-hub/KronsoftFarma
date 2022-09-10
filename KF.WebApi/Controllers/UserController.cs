@@ -40,7 +40,7 @@ namespace KF.Web.API.Controllers
 
         [Route("/api/Users/{id}")]
         [HttpGet]
-        public UserModel Get(Guid id)
+        public UserModel Get([FromRoute] Guid id)
         {
             try
             {
