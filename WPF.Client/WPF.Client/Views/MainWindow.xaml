@@ -4,8 +4,9 @@
         xmlns:prism="http://prismlibrary.com/"
         prism:ViewModelLocator.AutoWireViewModel="True"
         xmlns:core="clr-namespace:WPF.Client.Core;assembly=WPF.Client.Core"
-        Title="{Binding Title}" Height="350" Width="525" >
+        Title="{Binding Title}" Height="350" Width="525">
     <Grid>
         <ContentControl prism:RegionManager.RegionName="{x:Static core:RegionNames.ContentRegion}" />
+        <!--<ContentControl Margin="5" prism:RegionManager.RegionName="ContentRegion" />-->
     </Grid>
 </Window>

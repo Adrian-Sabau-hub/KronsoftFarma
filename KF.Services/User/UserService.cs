@@ -1,6 +1,7 @@
 ﻿using KF.Common.Model.Automapper;
 using KF.CommonModel.Models;
 using KF.Core.Data;
+using KF.Core.DomainModels;
 
 namespace KF.Services.User
 {
@@ -66,6 +67,17 @@ namespace KF.Services.User
 
             userRepository.Update(user.ToEntity());
             return GetUserById(user.UserId);
+        }
+
+        public bool ValidateUser(string username, string password)
+        {
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+                throw new ArgumentNullException("username or password is null or empty");
+
+            var userEntity = userRepository.TableNoTracking.FirstOrDefault(s => s.Username == username && s.Password == password);
+
+            return userEntity != null;
+
         }
 
         #endregion

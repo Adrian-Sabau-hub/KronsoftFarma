@@ -2,12 +2,14 @@
 using KF.Core.DomainModels;
 using KF.Services.Product;
 using KF.Services.Stock;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 using static NuGet.Packaging.PackagingConstants;
 
 namespace KF.WebApi.Controllers
 {
+    [Authorize]
     [ApiController]
 
     public class StockController : Controller

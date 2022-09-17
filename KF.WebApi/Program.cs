@@ -1,6 +1,8 @@
 using KF.Core.Data;
 using KF.Core.DomainModels;
+using KF.Web.API;
 using KF.WebApi;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
@@ -16,6 +18,10 @@ var config = new ConfigurationBuilder()
 builder.Services.ConfigureApplicationServices();
 
 builder.Services.AddDbContext<KronsoftFarmaContext>(options => options.UseSqlServer(config.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddAuthentication("BasicAuthentication").AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
+
+//builder.Services.AddAuthentication("BasicAuthentication").AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
 
 builder.Services.AddDbContext<IDbContext, KronsoftFarmaContext>();
 
@@ -50,7 +56,11 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
+
 app.UseAuthorization();
+
+
 
 app.MapControllers();
 

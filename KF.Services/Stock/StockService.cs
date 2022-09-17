@@ -41,6 +41,7 @@ namespace KF.Services.Stock
         public IEnumerable<StockModel> GetStocks()
         {
             var stocks = stockRepository.Table.Select(x => x.ToModel()).ToList();
+
             return stocks;
         }
 

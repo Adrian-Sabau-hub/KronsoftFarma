@@ -5,12 +5,16 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="11.2.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Prism.Unity" Version="8.1.97" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WPF.Client.Core\WPF.Client.Core.csproj" />
+    <ProjectReference Include="..\..\KF.Services\KF.Services.csproj" />
     <ProjectReference Include="..\Modules\WPF.Client.Modules.ModuleName\WPF.Client.Modules.ModuleName.csproj" />
-    <ProjectReference Include="..\Services\WPF.Client.Services.Interfaces\WPF.Client.Services.Interfaces.csproj" />
     <ProjectReference Include="..\Services\WPF.Client.Services\WPF.Client.Services.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\" />
   </ItemGroup>
 </Project>

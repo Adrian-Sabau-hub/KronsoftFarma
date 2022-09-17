@@ -1,11 +1,13 @@
 ﻿using KF.CommonModel.Models;
 using KF.Services.Product;
 using KF.Services.Stock;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 
 namespace KF.WebApi.Controllers
 {
+    [Authorize]
     [ApiController]
     //[Route("[/api/v1]")]
 

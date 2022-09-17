@@ -1,11 +1,14 @@
 ﻿using KF.CommonModel.Models;
 using KF.Services.User;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
+using System.Text;
 using System.Text.Json;
 
 namespace KF.Web.API.Controllers
 {
+    [Authorize]
     [ApiController]
 
     public class UserController : Controller
@@ -15,6 +18,31 @@ namespace KF.Web.API.Controllers
         public UserController(IUserService userService)
         {
             _userService = userService;
+        }
+
+        // Login
+        [AllowAnonymous]
+        [Route("/api/ValidateUser")]
+        [HttpPost]
+        public bool ValidateUser([FromBody] string userDetails)
+        {
+            try
+            {
+                byte[] data = Convert.FromBase64String(userDetails);
+                string decodedString = Encoding.UTF8.GetString(data);
+                var details = decodedString.Split(new char[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
+                var username = details[0];
+                var password = details[1];
+
+                var user = _userService.ValidateUser(username, password);
+
+                return user;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message.ToString());
+                //return (IEnumerable<UserModel>)View();
+            }
         }
 
         // Get
