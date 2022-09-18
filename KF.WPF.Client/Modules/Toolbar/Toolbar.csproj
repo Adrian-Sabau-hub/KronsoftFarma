@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Prism.Wpf" Version="8.1.97" />
+    <PackageReference Include="Unity" Version="5.11.10" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\KF.WPF.Client.Core\KF.WPF.Client.Core.csproj" />
+    <ProjectReference Include="..\Product\Product.csproj" />
+    <ProjectReference Include="..\Stock\Stock.csproj" />
+    <ProjectReference Include="..\User\User.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Views\Toolbar.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+</Project>

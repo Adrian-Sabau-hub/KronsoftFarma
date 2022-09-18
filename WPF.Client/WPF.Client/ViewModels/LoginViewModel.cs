@@ -22,14 +22,15 @@ namespace WPF.Client.ViewModels
         #region Properties
         private readonly UserRestService userRestService;
 
-        private string username;
+        private string username = "Adrian";
         public string Username
         {
             get { return username; }
             set { SetProperty(ref username, value); }
         }
+        
 
-        private string password;
+        private string password = "1234567890";
         public string Password
         {
             get { return password; }
@@ -55,7 +56,7 @@ namespace WPF.Client.ViewModels
                 App.Current.Properties["username"] = username;
                 App.Current.Properties["password"] = password;
 
-                NewWindow.Invoke(_container.Resolve<ProductView>());
+                NewWindow.Invoke(_container.Resolve<MainWindow>());
                 CloseWindow.Invoke();
             } else
             {

@@ -24,7 +24,7 @@ namespace KF.Web.API.Controllers
         [AllowAnonymous]
         [Route("/api/ValidateUser")]
         [HttpPost]
-        public bool ValidateUser([FromBody] string userDetails)
+        public UserModel ValidateUser([FromBody] string userDetails)
         {
             try
             {

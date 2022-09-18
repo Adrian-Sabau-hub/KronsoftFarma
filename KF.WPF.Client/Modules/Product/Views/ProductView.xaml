@@ -1,0 +1,123 @@
+﻿<UserControl x:Class="KF.WPF.Client.Modules.Product.Views.ProductView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:prism="http://prismlibrary.com/"             
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             Background="Transparent">
+
+    <Grid>
+        
+        <ScrollViewer CanContentScroll="True" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+
+            <Border CornerRadius="10 0 0 10">
+
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color=" #21428f" Offset="0"/>
+                    <GradientStop Color="#64b5e7" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.Background>
+
+                <StackPanel>
+
+                    <TextBlock HorizontalAlignment="Left" 
+                           Margin="20,20,0,0" 
+                           FontSize="18" 
+                           Foreground="White" 
+                           FontWeight="Bold" 
+                           Text="{Binding SelectedProduct.Name}" />
+
+                    <StackPanel Orientation="Horizontal">
+
+                        <Button Background="#21428f" 
+                            Foreground="White" 
+                            BorderBrush="#64b5e7" 
+                            BorderThickness="1" 
+                            FontWeight="Bold" 
+                            Height="28" 
+                            FontSize="18" 
+                            HorizontalContentAlignment="Center" 
+                            VerticalContentAlignment="Center" 
+                            Content="Delete" 
+                            Command="{Binding DeleteProductCommand}" 
+                            Width="100" 
+                            Margin="20">
+
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="7"/>
+                                </Style>
+                            </Button.Resources>
+
+                        </Button>
+
+                        <Button Background="#21428f" 
+                            Foreground="White" 
+                            BorderBrush="#64b5e7" 
+                            BorderThickness="1" 
+                            FontWeight="Bold" 
+                            Height="28" 
+                            FontSize="18" 
+                            HorizontalContentAlignment="Center" 
+                            VerticalContentAlignment="Center" 
+                            Content="Add" 
+                            Command="{Binding AddProductCommand}" 
+                            Width="100" 
+                            Margin="20">
+
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="7"/>
+                                </Style>
+                            </Button.Resources>
+
+                        </Button>
+
+                        <Button Background="#21428f" 
+                            Foreground="White" 
+                            BorderBrush="#64b5e7" 
+                            BorderThickness="1" 
+                            FontWeight="Bold" 
+                            Height="28" 
+                            FontSize="18" 
+                            HorizontalContentAlignment="Center" 
+                            VerticalContentAlignment="Center" 
+                            Content="Update" 
+                            Command="{Binding UpdateProductCommand}" 
+                            Width="100" 
+                            Margin="20">
+
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="7"/>
+                                </Style>
+                            </Button.Resources>
+
+                        </Button>
+
+                    </StackPanel>
+                    
+                    <DataGrid Name = "Products"
+                              MinHeight="20"
+                          IsTextSearchEnabled="True"
+                          IsTextSearchCaseSensitive="False"
+                          GridLinesVisibility="Vertical"
+                          Foreground="#21428f"
+                          FontSize="14"
+                          CanUserResizeColumns="True"
+                          AllowDrop="True"
+                          Margin="10,0,10,0"
+                          AlternatingRowBackground = "#d8f3f9" 
+                          AlternationCount = "2" 
+                          ItemsSource="{Binding Products}" 
+                          SelectedItem="{Binding SelectedProduct}">
+                        
+                    </DataGrid>
+                </StackPanel>
+        </Border>
+            
+        </ScrollViewer>
+
+    </Grid>
+        
+</UserControl>

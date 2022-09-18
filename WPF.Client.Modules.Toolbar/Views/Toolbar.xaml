@@ -1,0 +1,50 @@
+﻿<UserControl x:Class="WPF.Client.Modules.Toolbar.Views.Toolbar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:WPF.Client.Modules.Toolbar.Views"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d" 
+             xmlns:prism="http://prismlibrary.com/"
+             Background="Transparent"
+             HorizontalAlignment="Stretch">
+             <!--prism:ViewModelLocator.AutoWireViewModel="True"--> 
+             
+    
+    <Grid>
+        <Border CornerRadius="10 0 0 10">
+
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color=" #21428f" Offset="0"/>
+                    <GradientStop Color="#64b5e7" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.Background>
+
+            <StackPanel Orientation="Horizontal">
+
+                <Image VerticalAlignment="Center" 
+                           HorizontalAlignment="Left" 
+                           Margin="20" 
+                           Source="C:\Users\adisb\github\KFRepo\KronsoftFarma\WPF.Client\WPF.Client\Resources\Kronsoft_img3.png"/>
+
+                <TextBlock VerticalAlignment="Center" 
+                           HorizontalAlignment="Center" 
+                           Margin="10,10" 
+                           Text="KRONSOFT PHARMA" 
+                           FontSize="28" 
+                           LineHeight="28" 
+                           TextWrapping="Wrap" 
+                           TextAlignment="Center" 
+                           Foreground="White" 
+                           FontWeight="Bold"/>
+
+            </StackPanel>
+
+        </Border>
+
+        <TextBlock Text="{Binding Message}"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center" />
+    </Grid>
+</UserControl>

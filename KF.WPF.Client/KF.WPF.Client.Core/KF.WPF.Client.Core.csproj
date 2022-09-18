@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="11.2.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Prism.Wpf" Version="8.1.97" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Services\KF.WPF.Client.Services.Interfaces\KF.WPF.Client.Services.Interfaces.csproj" />
+  </ItemGroup>
+</Project>

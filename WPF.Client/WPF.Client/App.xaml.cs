@@ -7,6 +7,7 @@ using Prism.Unity;
 using System.Windows;
 using WPF.Client.APIClient.RestServices;
 using WPF.Client.Modules.ModuleName;
+using WPF.Client.Modules.Toolbar.Views;
 using WPF.Client.Services;
 using WPF.Client.Services.Interfaces;
 using WPF.Client.ViewModels;
@@ -56,6 +57,7 @@ namespace WPF.Client
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
         {
             moduleCatalog.AddModule<ModuleNameModule>();
+            moduleCatalog.AddModule<Modules.Toolbar.ToolbarModule>();
         }
     }
 }

@@ -69,14 +69,14 @@ namespace KF.Services.User
             return GetUserById(user.UserId);
         }
 
-        public bool ValidateUser(string username, string password)
+        public UserModel ValidateUser(string username, string password)
         {
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
                 throw new ArgumentNullException("username or password is null or empty");
 
             var userEntity = userRepository.TableNoTracking.FirstOrDefault(s => s.Username == username && s.Password == password);
 
-            return userEntity != null;
+            return userEntity.ToModel();
 
         }
 

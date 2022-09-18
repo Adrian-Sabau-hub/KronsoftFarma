@@ -11,6 +11,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\KF.Services\KF.Services.csproj" />
+    <ProjectReference Include="..\..\WPF.Client.Modules.Toolbar\WPF.Client.Modules.Toolbar.csproj" />
     <ProjectReference Include="..\Modules\WPF.Client.Modules.ModuleName\WPF.Client.Modules.ModuleName.csproj" />
     <ProjectReference Include="..\Services\WPF.Client.Services\WPF.Client.Services.csproj" />
   </ItemGroup>

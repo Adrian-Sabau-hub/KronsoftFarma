@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Prism.Unity" Version="8.1.97" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\KF.WPF.Client.Core\KF.WPF.Client.Core.csproj" />
+    <ProjectReference Include="..\Modules\Product\Product.csproj" />
+    <ProjectReference Include="..\Modules\Stock\Stock.csproj" />
+    <ProjectReference Include="..\Modules\Toolbar\Toolbar.csproj" />
+    <ProjectReference Include="..\Modules\User\User.csproj" />
+    <ProjectReference Include="..\Services\KF.WPF.Client.Services.Interfaces\KF.WPF.Client.Services.Interfaces.csproj" />
+    <ProjectReference Include="..\Services\KF.WPF.Client.Services\KF.WPF.Client.Services.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Views\Login.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Views\Login.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+</Project>

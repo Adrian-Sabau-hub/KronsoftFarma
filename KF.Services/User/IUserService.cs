@@ -14,6 +14,6 @@ namespace KF.Services.User
         bool RemoveUserById(Guid userId);
         UserModel CreateUser(UserModel user);
         UserModel UpdateUser(UserModel user);
-        bool ValidateUser(string username, string password);
+        UserModel ValidateUser(string username, string password);
     }
 }

@@ -7,6 +7,7 @@
     <PackageReference Include="Prism.Wpf" Version="8.1.97" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\WPF.Client.Modules.Toolbar\WPF.Client.Modules.Toolbar.csproj" />
     <ProjectReference Include="..\..\WPF.Client.Core\WPF.Client.Core.csproj" />
     <ProjectReference Include="..\..\Services\WPF.Client.Services.Interfaces\WPF.Client.Services.Interfaces.csproj" />
   </ItemGroup>
