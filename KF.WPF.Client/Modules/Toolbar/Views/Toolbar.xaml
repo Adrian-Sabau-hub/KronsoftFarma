@@ -8,7 +8,6 @@
              xmlns:prism="http://prismlibrary.com/"
              Background="Transparent"
              HorizontalAlignment="Stretch">
-             <!--prism:ViewModelLocator.AutoWireViewModel="True"-->
     
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
@@ -32,15 +31,10 @@
 
             <StackPanel Orientation="Horizontal">
                 
-
                 <Image VerticalAlignment="Center" 
                            HorizontalAlignment="Left" 
                            Margin="20" 
-                           Source="C:\Users\adisb\github\KFRepo\KronsoftFarma\WPF.Client\WPF.Client\Resources\Kronsoft_img3.png"/>
-
-                
-
-                
+                           Source="C:\Users\adisb\github\KFRepo\KronsoftFarma\KF.WPF.Client\KF.WPF.Client.Core\Resources\Kronsoft_img.png"/>
 
             </StackPanel>
 
@@ -55,8 +49,8 @@
                            
                            Margin="10,10" 
                            Text="KRONSOFT PHARMA" 
-                           FontSize="28" 
-                           LineHeight="28" 
+                           FontSize="50" 
+                           LineHeight="50" 
                            TextWrapping="Wrap" 
                            TextAlignment="Center" 
                            Foreground="White" 
@@ -64,39 +58,151 @@
 
                 <StackPanel
                     Grid.Row="1"
-            Margin="5"
-            Orientation="Horizontal">
-                    <Button
-                Margin="5"
-                Command="{Binding Navigate}"
-                CommandParameter="ProductView">
-                        Products
+                    Margin="5"
+                    Orientation="Horizontal">
+
+                    <Button Width="120" 
+                        Height="50" 
+                        Content="Products"
+                        Foreground="White" 
+                        FontWeight="Bold" 
+                        FontSize="20" 
+                        Margin="20,5,20,5"
+                        Command="{Binding Navigate}"
+                        CommandParameter="ProductView">
+                        <Button.Template>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border x:Name="productsButton" 
+                                        CornerRadius="7" 
+                                        Margin="4" 
+                                        BorderThickness="2" 
+                                        BorderBrush="#64b5e7" 
+                                        Background="#21428f">
+                                    <ContentPresenter VerticalAlignment="Center" 
+                                                      HorizontalAlignment="Center" 
+                                                      Margin="8,6,8,6" 
+                                                      ContentSource="Content" />
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="productsButton" Property="Background" Value="#64b5e7"/>
+                                    </Trigger>
+                                    <Trigger Property="IsFocused" Value="True">
+                                        <Setter TargetName="productsButton" Property="Background" Value="#64b5e7"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
                     </Button>
-                    <Button
-                Margin="5"
-                Command="{Binding Navigate}"
-                CommandParameter="StockView">
-                        Stocks
+
+                    <Button Width="120" 
+                        Height="50" 
+                        Content="Stocks"
+                        Foreground="White" 
+                        FontWeight="Bold" 
+                        FontSize="20" 
+                        Margin="20,5,20,5"
+                        Command="{Binding Navigate}"
+                        CommandParameter="StockView">
+                        <Button.Template>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border x:Name="stocksButton" 
+                                        CornerRadius="7" 
+                                        Margin="4" 
+                                        BorderThickness="2" 
+                                        BorderBrush="#64b5e7" 
+                                        Background="#21428f">
+                                    <ContentPresenter VerticalAlignment="Center" 
+                                                      HorizontalAlignment="Center" 
+                                                      Margin="8,6,8,6" 
+                                                      ContentSource="Content" />
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="stocksButton" Property="Background" Value="#64b5e7"/>
+                                    </Trigger>
+                                    <Trigger Property="IsFocused" Value="True">
+                                        <Setter TargetName="stocksButton" Property="Background" Value="#64b5e7"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
                     </Button>
-                    <Button
-                Margin="5"
-                Command="{Binding Navigate}"
-                CommandParameter="UserView" Visibility="{Binding Path=ShowUser, Converter={StaticResource BoolToVis}}">
-                        Users
+
+                    <Button Width="120" 
+                        Height="50" 
+                        Content="Users"
+                        Foreground="White" 
+                        FontWeight="Bold" 
+                        FontSize="20" 
+                        Margin="20,5,20,5"
+                        Command="{Binding Navigate}"
+                        CommandParameter="UserView" 
+                        Visibility="{Binding Path=ShowUser, Converter={StaticResource BoolToVis}}">
+                        <Button.Template>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border x:Name="usersButton" 
+                                        CornerRadius="7" 
+                                        Margin="4" 
+                                        BorderThickness="2" 
+                                        BorderBrush="#64b5e7" 
+                                        Background="#21428f">
+                                    <ContentPresenter VerticalAlignment="Center" 
+                                                      HorizontalAlignment="Center" 
+                                                      Margin="8,6,8,6" 
+                                                      ContentSource="Content" />
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="usersButton" Property="Background" Value="#64b5e7"/>
+                                    </Trigger>
+                                    <Trigger Property="IsFocused" Value="True">
+                                        <Setter TargetName="usersButton" Property="Background" Value="#64b5e7"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
                     </Button>
+
+                    <Button Width="120" 
+                        Height="50" 
+                        Content="Logout"
+                        Foreground="White" 
+                        FontWeight="Bold" 
+                        FontSize="20" 
+                        Margin="20,5,20,5"
+                        Click="CloseButton_Click">
+                        <Button.Template>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border x:Name="logoutButton" 
+                                        CornerRadius="7" 
+                                        Margin="4" 
+                                        BorderThickness="2" 
+                                        BorderBrush="#64b5e7" 
+                                        Background="#21428f">
+                                    <ContentPresenter VerticalAlignment="Center" 
+                                                      HorizontalAlignment="Center" 
+                                                      Margin="8,6,8,6" 
+                                                      ContentSource="Content" />
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="logoutButton" Property="Background" Value="#64b5e7"/>
+                                    </Trigger>
+                                    <Trigger Property="IsFocused" Value="True">
+                                        <Setter TargetName="logoutButton" Property="Background" Value="#64b5e7"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+
                 </StackPanel>
 
             </Grid>
 
-
         </Grid>
 
-
-            
-
         </Border>
-        
-
-        
     
 </UserControl>

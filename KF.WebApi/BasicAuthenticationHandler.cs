@@ -1,5 +1,4 @@
-﻿using KF.CommonModel.Models;
-using KF.Core.Data;
+﻿using KF.Core.Data;
 using KF.Core.DomainModels;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Options;
@@ -12,12 +11,22 @@ namespace KF.Web.API
 {
     public class BasicAuthenticationHandler : AuthenticationHandler<AuthenticationSchemeOptions>
     {
+        #region Fields
+
         private readonly IRepository<User> usersRepository;
+
+        #endregion
+
+        #region ctor
 
         public BasicAuthenticationHandler(IOptionsMonitor<AuthenticationSchemeOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock, IRepository<User> usersRepository) : base(options, logger, encoder, clock)
         {
             this.usersRepository = usersRepository;
         }
+
+        #endregion
+
+        #region Methods
 
         protected async override Task<AuthenticateResult> HandleAuthenticateAsync()
         {
@@ -29,6 +38,7 @@ namespace KF.Web.API
             var autHeader = AuthenticationHeaderValue.Parse(Request.Headers["Authorization"]);
             var bytes = Convert.FromBase64String(autHeader.Parameter);
             string credentials = Encoding.UTF8.GetString(bytes);
+
             if(!string.IsNullOrEmpty(credentials))
             {
                 string[] array= credentials.Split(":");
@@ -42,7 +52,6 @@ namespace KF.Web.API
                     return AuthenticateResult.Fail("UnAutorized");
 
                 }
-                
 
                 // Generate ticket
                 var claim = new[] { new Claim(ClaimTypes.Name, username) };
@@ -56,5 +65,7 @@ namespace KF.Web.API
                 return AuthenticateResult.Fail("No header found");
             }
         }
+
+        #endregion
     }
 }

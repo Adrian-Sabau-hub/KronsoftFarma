@@ -30,71 +30,7 @@ namespace KF.WPF.Client.Modules.Stock.ViewModels
         }
         #endregion
 
-        #region Commands
-
-        public DelegateCommand AddStockCommand { get; private set; }
-
-        private async void AddStock()
-        {
-            //get new stock
-            StockModel newStock = Stocks.FirstOrDefault(s => s.StockId == Guid.Empty);
-
-            if (newStock == null)
-            {
-                MessageBox.Show("Please enter a new stock in the grid.");
-                return;
-            }
-
-            // send stock 
-            await stockRestService.CreateStockAsync(newStock);
-
-            //refresh lista
-            await GetStocks();
-        }
-
-        public DelegateCommand UpdateStockCommand { get; private set; }
-
-        private async void UpdateStock()
-        {
-            //check if selected stock
-            if (SelectedStock == null)
-            {
-                MessageBox.Show("Please select a stock for update");
-                return;
-            }
-
-            //get selected stock id
-            Guid stockId = selectedStock.StockId;
-
-            //send request to update 
-            await stockRestService.UpdateStockAsync(stockId, SelectedStock);
-
-            //refresh lista
-            await GetStocks();
-        }
-
-        public DelegateCommand DeleteStockCommand { get; private set; }
-
-        private async void DeleteStock()
-        {
-            //check if selected stock
-            if (SelectedStock == null)
-            {
-                MessageBox.Show("Please select a stock");
-                return;
-            }
-
-            //get selected stock id
-            Guid stockId = selectedStock.StockId;
-
-            //send request to delete Id via rest service
-            await stockRestService.DeleteStockAsync(stockId);
-
-            //refresh lista
-            await GetStocks();
-        }
-
-        #endregion
+        #region ctor
 
         public StockViewViewModel(StockRestService stockRestService)
         {
@@ -104,6 +40,10 @@ namespace KF.WPF.Client.Modules.Stock.ViewModels
             DeleteStockCommand = new DelegateCommand(DeleteStock);
             Task.Run(() => this.Initialize()).Wait();
         }
+
+        #endregion
+
+        #region Methods
 
         private async Task Initialize()
         {
@@ -115,14 +55,93 @@ namespace KF.WPF.Client.Modules.Stock.ViewModels
             Stocks = new ObservableCollection<StockModel>(await stockRestService.GetAllStocksAsync());
         }
 
-        
+        #endregion
 
-        
+        #region Commands
 
+        public DelegateCommand AddStockCommand { get; private set; }
 
+        private async void AddStock()
+        {
+            try
+            {
+                //get new stock
+                StockModel newStock = Stocks.FirstOrDefault(s => s.StockId == Guid.Empty);
 
-        
+                if (newStock == null)
+                {
+                    MessageBox.Show("Please enter a new stock in the grid.");
+                    return;
+                }
 
+                // send stock 
+                await stockRestService.CreateStockAsync(newStock);
 
+                //refresh lista
+                await GetStocks();
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message.ToString());
+            }
+        }
+
+        public DelegateCommand UpdateStockCommand { get; private set; }
+
+        private async void UpdateStock()
+        {
+            try
+            {
+                //check if selected stock
+                if (SelectedStock == null)
+                {
+                    MessageBox.Show("Please select a stock for update");
+                    return;
+                }
+
+                //get selected stock id
+                Guid stockId = selectedStock.StockId;
+
+                //send request to update 
+                await stockRestService.UpdateStockAsync(stockId, SelectedStock);
+
+                //refresh lista
+                await GetStocks();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message.ToString());
+            }
+        }
+
+        public DelegateCommand DeleteStockCommand { get; private set; }
+
+        private async void DeleteStock()
+        {
+            try
+            {
+                //check if selected stock
+                if (SelectedStock == null)
+                {
+                    MessageBox.Show("Please select a stock");
+                    return;
+                }
+
+                //get selected stock id
+                Guid stockId = selectedStock.StockId;
+
+                //send request to delete Id via rest service
+                await stockRestService.DeleteStockAsync(stockId);
+
+                //refresh lista
+                await GetStocks();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message.ToString());
+            }
+        }
+
+        #endregion
     }
 }

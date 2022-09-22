@@ -1,5 +1,4 @@
-﻿using KF.WPF.Client.Core;
-using KF.WPF.Client.Modules.Product.Views;
+﻿using KF.WPF.Client.Modules.Product.Views;
 using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Regions;
@@ -18,14 +17,12 @@ namespace Product
 
         public void OnInitialized(IContainerProvider containerProvider)
         {
-            //_regionManager.RequestNavigate(RegionNames.ContentRegion, "ProductView");
         }
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterForNavigation<ProductView>();
         }
-
         
     }
 }

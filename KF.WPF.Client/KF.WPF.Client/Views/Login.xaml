@@ -30,11 +30,11 @@
                     <Image VerticalAlignment="Top" 
                            HorizontalAlignment="Center"
                            Margin="20" 
-                           Source="C:\Users\adisb\github\KFRepo\KronsoftFarma\WPF.Client\WPF.Client\Resources\Kronsoft_logo.png"/>
+                           Source="C:\Users\adisb\github\KFRepo\KronsoftFarma\KF.WPF.Client\KF.WPF.Client.Core\Resources\kronsoft-logo-white.png"/>
                     
                     <TextBlock VerticalAlignment="Center" 
                                HorizontalAlignment="Center" 
-                               Margin="10,10" 
+                               Margin="10,50,10,50" 
                                Text="Account validation to access Kronsoft Pharma app" 
                                FontSize="18" 
                                LineHeight="28" 
@@ -82,7 +82,7 @@
 
                 <Label FontSize="18" Foreground="#21428f" FontWeight="Bold" Margin="5" Content="Username" />
                 
-                <TextBox Text="{Binding Username}">
+                <TextBox x:Name="usernameBox"  Text="{Binding Username}">
                     
                     <TextBox.Resources>
                         <Style TargetType="Border">
@@ -94,12 +94,13 @@
                 
                 <Label FontSize="18" Foreground="#21428f" FontWeight="Bold" Margin="5" Content="Password" />
                 
-                <PasswordBox Height="30" 
-                             Padding="5,1"
-                             Margin="5" Width="200" 
-                             Foreground="Black" 
-                             VerticalContentAlignment="Center" 
-                             PasswordChanged="PasswordBox_PasswordChanged">
+                <PasswordBox x:Name="passwordBox"
+                    Height="30" 
+                    Padding="5,1"
+                    Margin="5" Width="200" 
+                    Foreground="Black" 
+                    VerticalContentAlignment="Center" 
+                    PasswordChanged="PasswordBox_PasswordChanged">
                     
                     <PasswordBox.Resources>
                         <Style TargetType="PasswordBox">
@@ -127,21 +128,31 @@
                     
                 </PasswordBox>
 
-                <Button Margin="30" 
-                        Background="#21428f" 
-                        Foreground="White" 
-                        FontWeight="Bold" 
-                        Width="100" 
-                        Height="40" 
-                        Content="Submit" 
-                        FontSize="18" 
-                        Command="{Binding ValidateUser}" 
-                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}">
-                <!--Command="{Binding ValidateUser}">-->
+                <Button x:Name="loginButton"
+                    Margin="30" 
+                    Background="#21428f" 
+                    Foreground="White" 
+                    FontWeight="Bold" 
+                    Width="100" 
+                    Height="40" 
+                    Content="Submit" 
+                    FontSize="18" 
+                    Command="{Binding ValidateUser}" 
+                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}">
                     
                     <Button.Resources>
                         <Style TargetType="Border">
                             <Setter Property="CornerRadius" Value="7"/>
+                        </Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Style.Triggers>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding Text.Length, ElementName=usernameBox, UpdateSourceTrigger=PropertyChanged}" Value="0"/>
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </MultiDataTrigger>
+                            </Style.Triggers>
                         </Style>
                     </Button.Resources>
                     

@@ -30,71 +30,7 @@ namespace KF.WPF.Client.Modules.Product.ViewModels
         }
         #endregion
 
-        #region Commands
-
-        public DelegateCommand AddProductCommand { get; private set; }
-
-        private async void AddProduct()
-        {
-            //get new student
-            ProductModel newStudent = Products.FirstOrDefault(s => s.ProductId == Guid.Empty);
-
-            if (newStudent == null)
-            {
-                MessageBox.Show("Please enter a new product in the grid.");
-                return;
-            }
-
-            // send student 
-            await productRestService.CreateProductAsync(newStudent);
-
-            //refresh lista
-            await GetProducts();
-        }
-
-        public DelegateCommand UpdateProductCommand { get; private set; }
-
-        private async void UpdateProduct()
-        {
-            //check if selected product
-            if (SelectedProduct == null)
-            {
-                MessageBox.Show("Please select a product for update");
-                return;
-            }
-
-            //get selected product id
-            Guid productId = selectedProduct.ProductId;
-
-            //send request to update 
-            await productRestService.UpdateProductAsync(productId, SelectedProduct);
-
-            //refresh lista
-            await GetProducts();
-        }
-
-        public DelegateCommand DeleteProductCommand { get; private set; }
-
-        private async void DeleteProduct()
-        {
-            //check if selected product
-            if (SelectedProduct == null)
-            {
-                MessageBox.Show("Please select a product");
-                return;
-            }
-
-            //get selected product id
-            Guid productId = selectedProduct.ProductId;
-
-            //send request to delete Id via rest service
-            await productRestService.DeleteProductAsync(productId);
-
-            //refresh lista
-            await GetProducts();
-        }
-
-        #endregion
+        #region ctor
 
         public ProductViewViewModel(ProductRestService producRestService)
         {
@@ -104,6 +40,10 @@ namespace KF.WPF.Client.Modules.Product.ViewModels
             DeleteProductCommand = new DelegateCommand(DeleteProduct);
             Task.Run(() => this.Initialize()).Wait();
         }
+
+        #endregion
+
+        #region Methods
 
         private async Task Initialize()
         {
@@ -115,14 +55,93 @@ namespace KF.WPF.Client.Modules.Product.ViewModels
             Products = new ObservableCollection<ProductModel>(await productRestService.GetAllProductsAsync());
         }
 
-        
+        #endregion
 
-        
+        #region Commands
 
+        public DelegateCommand AddProductCommand { get; private set; }
 
+        private async void AddProduct()
+        {
+            try
+            {
+                //get new student
+                ProductModel newStudent = Products.FirstOrDefault(s => s.ProductId == Guid.Empty);
 
-        
+                if (newStudent == null)
+                {
+                    MessageBox.Show("Please enter a new product in the grid.");
+                    return;
+                }
 
+                // send student 
+                await productRestService.CreateProductAsync(newStudent);
 
+                //refresh lista
+                await GetProducts();
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message.ToString());
+            }
+        }
+
+        public DelegateCommand UpdateProductCommand { get; private set; }
+
+        private async void UpdateProduct()
+        {
+            try
+            {
+                //check if selected product
+                if (SelectedProduct == null)
+                {
+                    MessageBox.Show("Please select a product for update");
+                    return;
+                }
+
+                //get selected product id
+                Guid productId = selectedProduct.ProductId;
+
+                //send request to update 
+                await productRestService.UpdateProductAsync(productId, SelectedProduct);
+
+                //refresh lista
+                await GetProducts();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message.ToString());
+            }
+        }
+
+        public DelegateCommand DeleteProductCommand { get; private set; }
+
+        private async void DeleteProduct()
+        {
+            try
+            {
+                //check if selected product
+                if (SelectedProduct == null)
+                {
+                    MessageBox.Show("Please select a product");
+                    return;
+                }
+
+                //get selected product id
+                Guid productId = selectedProduct.ProductId;
+
+                //send request to delete Id via rest service
+                await productRestService.DeleteProductAsync(productId);
+
+                //refresh lista
+                await GetProducts();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message.ToString());
+            }
+        }
+
+        #endregion
     }
 }

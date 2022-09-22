@@ -17,7 +17,6 @@ namespace User
 
         public void OnInitialized(IContainerProvider containerProvider)
         {
-            //_regionManager.RequestNavigate(RegionNames.ContentRegion, "UserView");
         }
 
         public void RegisterTypes(IContainerRegistry containerRegistry)

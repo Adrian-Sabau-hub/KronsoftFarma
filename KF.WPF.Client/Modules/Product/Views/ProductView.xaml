@@ -6,8 +6,6 @@
              Background="Transparent">
 
     <Grid>
-        
-        <ScrollViewer CanContentScroll="True" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
 
             <Border CornerRadius="10 0 0 10">
 
@@ -96,9 +94,12 @@
                         </Button>
 
                     </StackPanel>
-                    
-                    <DataGrid Name = "Products"
-                              MinHeight="20"
+
+                        <DataGrid Name = "Products"
+                          MaxHeight="500"
+                          VerticalScrollBarVisibility="Auto"
+                          AutoGenerateColumns="False"
+                          MinHeight="20"
                           IsTextSearchEnabled="True"
                           IsTextSearchCaseSensitive="False"
                           GridLinesVisibility="Vertical"
@@ -110,13 +111,27 @@
                           AlternatingRowBackground = "#d8f3f9" 
                           AlternationCount = "2" 
                           ItemsSource="{Binding Products}" 
-                          SelectedItem="{Binding SelectedProduct}">
-                        
-                    </DataGrid>
+                          SelectedItem="{Binding SelectedProduct}"
+                          LoadingRow="DataGrid_LoadingRow">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="230" />
+                                <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="1060" >
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style>
+                                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                                            <Setter Property="TextBlock.TextAlignment" Value="Left"/>
+                                            <Setter Property="TextBlock.MinHeight" Value="50"/>
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                </DataGridTextColumn>
+                                <DataGridTextColumn Header="Price" Binding="{Binding Price}" Width="80"/>
+                                <DataGridTextColumn Header="Producer" Binding="{Binding Producer}" Width="100"/>
+                            </DataGrid.Columns>
+
+                        </DataGrid>
+
                 </StackPanel>
         </Border>
-            
-        </ScrollViewer>
 
     </Grid>
         

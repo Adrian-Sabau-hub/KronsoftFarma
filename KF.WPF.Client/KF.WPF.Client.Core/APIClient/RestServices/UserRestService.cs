@@ -75,13 +75,6 @@ namespace KF.WPF.Client.Core.APIClient.RestServices
             }
         }
 
-        //public async Task<bool> UserValidation(String username, String password)
-        //{
-        //    var request = await PrepareRequestMessageAsync(HttpMethod.Post, string.Format("{0}/api/ValidateUser", serverAddress));
-        //    var response = await client.SendAsync(request);
-        //    await Task.CompletedTask;
-        //}
-
         public async Task<UserModel> ValidateUser(String username, String password)
         {
             try

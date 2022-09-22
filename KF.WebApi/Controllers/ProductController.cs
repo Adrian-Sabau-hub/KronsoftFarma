@@ -1,9 +1,9 @@
 ﻿using KF.CommonModel.Models;
+using KF.Core.DomainModels;
 using KF.Services.Product;
 using KF.Services.Stock;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Text.Json;
 
 namespace KF.WebApi.Controllers
 {
@@ -20,24 +20,6 @@ namespace KF.WebApi.Controllers
         {
             _productService = productService;
             _stockService = stockService;
-        }
-
-        // Get by id
-
-        [Route("/api/Products/{id}")]
-        [HttpGet]
-        public ProductModel GetById([FromRoute] Guid id)
-        {
-            try
-            {
-                var product = _productService.GetProductById(id);
-
-                return product;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message.ToString());
-            }
         }
 
         // Get
@@ -58,6 +40,31 @@ namespace KF.WebApi.Controllers
             }
         }
 
+        // Get by id
+
+        [Route("/api/Products/{id}")]
+        [HttpGet]
+        public ProductModel GetById([FromRoute] Guid id)
+        {
+            try
+            {
+                if (id != Guid.Empty)
+                {
+                    var product = _productService.GetProductById(id);
+                    return product;
+                }
+                else
+                {
+                    return null;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message.ToString());
+            }
+        }
+        
         // Create
 
         [Route("/api/Products")]
@@ -66,9 +73,17 @@ namespace KF.WebApi.Controllers
         {
             try
             {
-                //var studentModel = JsonSerializer.Deserialize<StudentModel>(student);
-                ProductModel createdProduct = _productService.CreateProduct(product);
-                return createdProduct;
+                if(product != null)
+                {
+                    ProductModel createdProduct = _productService.CreateProduct(product);
+                    //StockModel newStock = new StockModel(Guid.Empty, createdProduct.ProductId, 0);
+                    return createdProduct;
+                }
+                else
+                {
+                    return null;
+                }
+
             }
             catch (Exception ex)
             {
@@ -84,16 +99,22 @@ namespace KF.WebApi.Controllers
         {
             try
             {
-                var stockData = _stockService.GetStocks();
+                if (id != Guid.Empty)
+                {
+                    var stockData = _stockService.GetStocks();
+                    var stock = stockData.FirstOrDefault(s => s.ProductId == id);
 
-                var stock = stockData.FirstOrDefault(s => s.ProductId == id);
+                    if (stock != null)
+                        _stockService.RemoveStockById(stock.StockId);
 
-                if(stock != null)
-                    _stockService.RemoveStockById(stock.StockId);
+                    _productService.RemoveProductById(id);
 
-                _productService.RemoveProductById(id);
-
-                return true;
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
             catch (Exception ex)
             {
@@ -109,8 +130,15 @@ namespace KF.WebApi.Controllers
         {
             try
             {
-                ProductModel updatedProduct = _productService.UpdateProduct(product);
-                return updatedProduct;
+                if (product != null && id != Guid.Empty)
+                {
+                    ProductModel updatedProduct = _productService.UpdateProduct(product);
+                    return updatedProduct;
+                }
+                else
+                {
+                    return null;
+                }
             }
             catch (Exception ex)
             {

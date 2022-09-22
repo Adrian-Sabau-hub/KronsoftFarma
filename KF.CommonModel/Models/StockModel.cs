@@ -1,11 +1,6 @@
 ﻿using KF.Core.Data;
 using KF.Core.DomainModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace KF.CommonModel.Models
 {
@@ -18,5 +13,6 @@ namespace KF.CommonModel.Models
         public double Quantity { get; set; }
         [JsonIgnore]
         public virtual Product? Product { get; set; } = null!;
+
     }
 }

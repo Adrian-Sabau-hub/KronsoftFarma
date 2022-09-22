@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using KF.Core.Data;
+﻿using KF.Core.Data;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace KF.Core.DomainModels
 {
     public partial class KronsoftFarmaContext : DbContext, IDbContext
     {
+        #region ctor
+
         public KronsoftFarmaContext()
         {
         }
@@ -17,9 +16,17 @@ namespace KF.Core.DomainModels
         {
         }
 
+        #endregion
+
+        #region Properties
+
         public virtual DbSet<Product> Products { get; set; } = null!;
         public virtual DbSet<Stock> Stocks { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
+
+        #endregion
+
+        #region Methods
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -76,7 +83,6 @@ namespace KF.Core.DomainModels
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 
-        #region Methods
         public virtual new DbSet<TEntity> Set<TEntity>() where TEntity : BaseEntity
         {
             return base.Set<TEntity>();

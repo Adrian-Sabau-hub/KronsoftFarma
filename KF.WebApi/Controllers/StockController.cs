@@ -4,8 +4,6 @@ using KF.Services.Product;
 using KF.Services.Stock;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Text.Json;
-using static NuGet.Packaging.PackagingConstants;
 
 namespace KF.WebApi.Controllers
 {
@@ -58,11 +56,18 @@ namespace KF.WebApi.Controllers
         public StockModel GetStockByProductId([FromRoute] Guid productId)
         {
             try
-            {
-                StockModel stock = _stockService.GetStockByProductId(productId);
-                ProductModel product = _productService.GetProductById(productId);
-                stock.ProductName = product.Name;   
-                return stock;
+            { 
+                if(productId != Guid.Empty)
+                {
+                    StockModel stock = _stockService.GetStockByProductId(productId);
+                    ProductModel product = _productService.GetProductById(productId);
+                    stock.ProductName = product.Name;
+                    return stock;
+                }
+                else
+                {
+                    return null;   
+                }
             }
             catch (Exception ex)
             {
@@ -78,8 +83,15 @@ namespace KF.WebApi.Controllers
         {
             try
             {
-                StockModel updatedStock = _stockService.UpdateStock(stock);
-                return updatedStock;
+                if (id != Guid.Empty && stock != null)
+                {
+                    StockModel updatedStock = _stockService.UpdateStock(stock);
+                    return updatedStock;
+                }
+                else
+                {
+                    return null;
+                }
             }
             catch (Exception ex)
             {
@@ -94,9 +106,23 @@ namespace KF.WebApi.Controllers
         public StockModel Create([FromBody] StockModel stock)
         {
             try
-            {
-                StockModel createdStock = _stockService.CreateStock(stock);
-                return createdStock;
+            { 
+                if (stock.ProductId == Guid.Empty) return null;
+
+                foreach (StockModel element in _stockService.GetStocks())
+                {
+                    if (element.ProductId == stock.ProductId) return null;
+                }
+
+                if (stock != null)
+                {
+                    StockModel createdStock = _stockService.CreateStock(stock);
+                    return createdStock;
+                }
+                else
+                {
+                    return null;
+                }
             }
             catch (Exception ex)
             {
@@ -112,14 +138,21 @@ namespace KF.WebApi.Controllers
         {
             try
             {
-                _stockService.RemoveStockById(id);
-                return true;
+                if (id != Guid.Empty)
+                {
+                    _stockService.RemoveStockById(id);
+                    return true;
+                }
+
+                else
+                {
+                    return false;
+                }
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message.ToString());
             }
-            //return false;
         }
 
     }

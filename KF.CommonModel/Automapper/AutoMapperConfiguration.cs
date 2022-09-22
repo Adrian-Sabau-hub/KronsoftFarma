@@ -1,10 +1,4 @@
 ﻿using AutoMapper;
-using KF.Common.Model.Automapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace KF.Common.Model.Automapper
 {
@@ -18,14 +12,21 @@ namespace KF.Common.Model.Automapper
         #region Init
         public static void Init()
         {
-            mapperConfiguration = new MapperConfiguration(cfg => cfg.AddProfile<MappingProfile>());
-
-            if (mapperConfiguration == null)
+            try
             {
-                throw new ArgumentNullException("No configurations");
-            }
+                mapperConfiguration = new MapperConfiguration(cfg => cfg.AddProfile<MappingProfile>());
 
-            mapper = mapperConfiguration.CreateMapper();
+                if (mapperConfiguration == null)
+                {
+                    throw new ArgumentNullException("No configurations");
+                }
+
+                mapper = mapperConfiguration.CreateMapper();
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message.ToString());
+            }
         }
         #endregion
 

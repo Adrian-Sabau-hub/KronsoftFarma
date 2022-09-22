@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using KF.Common.Model.Models;
 using KF.CommonModel.Models;
 using KF.Core.DomainModels;
 

@@ -47,8 +47,8 @@ namespace KF.WPF.Client.Core.APIClient.RestServices
         protected async Task<HttpRequestMessage> PrepareRequestMessageAsync(HttpMethod method, string requestUri)
         {
             var request = new HttpRequestMessage(method, requestUri.Replace(@"//api/", @"/api/"));
-            var username = userDataService.Username;// "Adrian"; // App.Current.Properties["username"]; ;
-            var password = userDataService.Password; // "1234567890"; // App.Current.Properties["password"];
+            var username = userDataService.Username;
+            var password = userDataService.Password;
             var encodedAuthorization = Convert.ToBase64String(Encoding.GetEncoding("ISO-8859-1")
                 .GetBytes($"{username}:{password}"));
             request.Headers.Add("Authorization", $"basic {encodedAuthorization}");

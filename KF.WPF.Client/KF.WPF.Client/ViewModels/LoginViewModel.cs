@@ -22,22 +22,12 @@ namespace KF.WPF.Client.ViewModels
         private readonly IRegionManager _regionManager;
         private readonly IUserDataService userDataService;
 
-        public LoginViewModel(IUnityContainer container, IRegionManager regionManager, UserRestService userRestService, IUserDataService userDataService)
-        {
-            this.userRestService = userRestService;
-            this.userDataService = userDataService;
-            _regionManager = regionManager;
-            _container = container;
-        }
-
-
         private string username;// = "Adrian";
         public string Username
         {
             get { return username; }
             set { SetProperty(ref username, value); }
         }
-
 
         private string password;// = "1234567890";
         public string Password
@@ -46,14 +36,38 @@ namespace KF.WPF.Client.ViewModels
             set { SetProperty(ref password, value); }
         }
 
+        //wpf-prism-7-login
+        private string _title = "Kronsoft Pharma";
+        public string Title
+        {
+            get { return _title; }
+            set { SetProperty(ref _title, value); }
+        }
+
+        public DelegateCommand LoginCommand { get; set; }
+        public delegate void NewWindowDelegate(Object win);
+        public delegate void CloseWindowDelegate();
+        public CloseWindowDelegate CloseWindow { get; set; }
+        public NewWindowDelegate NewWindow { get; set; }
+
         #endregion
 
+        #region ctor
 
+        public LoginViewModel(IUnityContainer container, IRegionManager regionManager, UserRestService userRestService, IUserDataService userDataService)
+        {
+            this.userRestService = userRestService;
+            this.userDataService = userDataService;
+            _regionManager = regionManager;
+            _container = container;
+        }
+        #endregion
+
+        #region Commands
 
         private DelegateCommand<Window> _validateUser;
         public DelegateCommand<Window> ValidateUser =>
             _validateUser ?? (_validateUser = new DelegateCommand<Window>(ExecuteValidateUser, CanExecuteValidateUser));
-
 
         async void ExecuteValidateUser(Window window)
         {
@@ -71,7 +85,7 @@ namespace KF.WPF.Client.ViewModels
 
             } else
             {
-                window.DialogResult = false;
+                //window.DialogResult = false;
                 MessageBox.Show("Wrong username or password");
                 return;
             }
@@ -82,22 +96,6 @@ namespace KF.WPF.Client.ViewModels
             return true;
         }
 
-        //wpf-prism-7-login
-
-
-
-        private string _title = "Kronsoft Pharma";
-        public string Title
-        {
-            get { return _title; }
-            set { SetProperty(ref _title, value); }
-        }
-
-        public DelegateCommand LoginCommand { get; set; }
-        public delegate void NewWindowDelegate(Object win);
-        public delegate void CloseWindowDelegate();
-        public CloseWindowDelegate CloseWindow { get; set; }
-        public NewWindowDelegate NewWindow { get; set; }
-
+        #endregion
     }
 }

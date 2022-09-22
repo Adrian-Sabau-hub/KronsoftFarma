@@ -30,71 +30,7 @@ namespace KF.WPF.Client.Modules.User.ViewModels
         }
         #endregion
 
-        #region Commands
-
-        public DelegateCommand AddUserCommand { get; private set; }
-
-        private async void AddUser()
-        {
-            //get new user
-            UserModel newUser = Users.FirstOrDefault(s => s.UserId == Guid.Empty);
-
-            if (newUser == null)
-            {
-                MessageBox.Show("Please enter a new user in the grid.");
-                return;
-            }
-
-            // send user 
-            await userRestService.CreateUserAsync(newUser);
-
-            //refresh lista
-            await GetUsers();
-        }
-
-        public DelegateCommand UpdateUserCommand { get; private set; }
-
-        private async void UpdateUser()
-        {
-            //check if selected user
-            if (SelectedUser == null)
-            {
-                MessageBox.Show("Please select a user for update");
-                return;
-            }
-
-            //get selected user id
-            Guid userId = selectedUser.UserId;
-
-            //send request to update 
-            await userRestService.UpdateUserAsync(userId, SelectedUser);
-
-            //refresh lista
-            await GetUsers();
-        }
-
-        public DelegateCommand DeleteUserCommand { get; private set; }
-
-        private async void DeleteUser()
-        {
-            //check if selected user
-            if (SelectedUser == null)
-            {
-                MessageBox.Show("Please select a user");
-                return;
-            }
-
-            //get selected user id
-            Guid userId = selectedUser.UserId;
-
-            //send request to delete Id via rest service
-            await userRestService.DeleteUserAsync(userId);
-
-            //refresh lista
-            await GetUsers();
-        }
-
-        #endregion
+        #region ctor
 
         public UserViewViewModel(UserRestService userRestService)
         {
@@ -104,6 +40,10 @@ namespace KF.WPF.Client.Modules.User.ViewModels
             DeleteUserCommand = new DelegateCommand(DeleteUser);
             Task.Run(() => this.Initialize()).Wait();
         }
+
+        #endregion
+
+        #region Methods
 
         private async Task Initialize()
         {
@@ -115,14 +55,93 @@ namespace KF.WPF.Client.Modules.User.ViewModels
             Users = new ObservableCollection<UserModel>(await userRestService.GetAllUsersAsync());
         }
 
-        
+        #endregion
 
-        
+        #region Commands
 
+        public DelegateCommand AddUserCommand { get; private set; }
 
+        private async void AddUser()
+        {
+            try
+            {
+                //get new user
+                UserModel newUser = Users.FirstOrDefault(s => s.UserId == Guid.Empty);
 
-        
+                if (newUser == null)
+                {
+                    MessageBox.Show("Please enter a new user in the grid.");
+                    return;
+                }
 
+                // send user 
+                await userRestService.CreateUserAsync(newUser);
 
+                //refresh lista
+                await GetUsers();
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message.ToString());
+            }
+        }
+
+        public DelegateCommand UpdateUserCommand { get; private set; }
+
+        private async void UpdateUser()
+        {
+            try
+            {
+                //check if selected user
+                if (SelectedUser == null)
+                {
+                    MessageBox.Show("Please select a user for update");
+                    return;
+                }
+
+                //get selected user id
+                Guid userId = selectedUser.UserId;
+
+                //send request to update 
+                await userRestService.UpdateUserAsync(userId, SelectedUser);
+
+                //refresh lista
+                await GetUsers();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message.ToString());
+            }
+        }
+
+        public DelegateCommand DeleteUserCommand { get; private set; }
+
+        private async void DeleteUser()
+        {
+            try
+            {
+                //check if selected user
+                if (SelectedUser == null)
+                {
+                    MessageBox.Show("Please select a user");
+                    return;
+                }
+
+                //get selected user id
+                Guid userId = selectedUser.UserId;
+
+                //send request to delete Id via rest service
+                await userRestService.DeleteUserAsync(userId);
+
+                //refresh lista
+                await GetUsers();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message.ToString());
+            }
+        }
+
+        #endregion
     }
 }

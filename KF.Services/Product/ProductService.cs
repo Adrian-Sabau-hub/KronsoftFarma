@@ -1,6 +1,8 @@
 ﻿using KF.Common.Model.Automapper;
 using KF.CommonModel.Models;
 using KF.Core.Data;
+using KF.Core.DomainModels;
+using Microsoft.EntityFrameworkCore;
 
 namespace KF.Services.Product
 {
@@ -27,49 +29,86 @@ namespace KF.Services.Product
 
         public ProductModel GetProductById(Guid productId)
         {
-            var product = productRepository.Table.FirstOrDefault(s => s.ProductId == productId);
-            return product.ToModel();
+            try
+            {
+                var product = productRepository.Table.FirstOrDefault(s => s.ProductId == productId);
+                return product.ToModel();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message.ToString());
+            }
         }
 
         public IEnumerable<ProductModel> GetProducts()
         {
-            var products = productRepository.Table.Select(x => x.ToModel()).ToList();
-            return products;
+            try
+            {
+                var products = productRepository.Table.Include(p => p.Stock).Select(x => x.ToModel()).ToList();
+                return products;
+
+            } catch(Exception ex)
+            {
+                throw new Exception(ex.Message.ToString());
+            }
         }
 
         public ProductModel CreateProduct(ProductModel product)
         {
-            if (product == null)
-                throw new ArgumentNullException("Exception product is null");
+            try
+            {
+                if (product == null)
+                    throw new ArgumentNullException("Exception product is null");
 
-            KF.Core.DomainModels.Product productEntity = product.ToEntity();
-            productRepository.Insert(productEntity);
+                KF.Core.DomainModels.Product productEntity = product.ToEntity();
+                productEntity.Stock = new KF.Core.DomainModels.Stock();
+                productRepository.Insert(productEntity);
 
-            ProductModel createdProduct = GetProductById(productEntity.ProductId);
-            return createdProduct;
+                ProductModel createdProduct = GetProductById(productEntity.ProductId);
+                return createdProduct;
+
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message.ToString());
+            }
         }
 
         public bool RemoveProductById(Guid productId)
         {
-            var productEntity = productRepository.Table.FirstOrDefault(x => x.ProductId == productId);
-            
-            if (productEntity == null)  return false;
+            try
+            {
+                var productEntity = productRepository.Table.FirstOrDefault(x => x.ProductId == productId);
 
-            productRepository.Delete(productEntity);
+                if (productEntity == null) return false;
 
-            return true;
+                productRepository.Delete(productEntity);
+
+                return true;
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message.ToString());
+            }
         }
 
         public ProductModel UpdateProduct(ProductModel product)
         {
-            if (product == null)
-                throw new ArgumentNullException("Exception product is null");
-            
-            var productEntity = productRepository.TableNoTracking.FirstOrDefault(s => s.ProductId == product.ProductId);
-            if (productEntity == null) return null;
+            try
+            {
+                if (product == null)
+                    throw new ArgumentNullException("Exception product is null");
 
-            productRepository.Update(product.ToEntity());
-            return GetProductById(product.ProductId);
+                var productEntity = productRepository.TableNoTracking.FirstOrDefault(s => s.ProductId == product.ProductId);
+                if (productEntity == null) return null;
+
+                productRepository.Update(product.ToEntity());
+                return GetProductById(product.ProductId);
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message.ToString());
+            }
         }
 
         #endregion

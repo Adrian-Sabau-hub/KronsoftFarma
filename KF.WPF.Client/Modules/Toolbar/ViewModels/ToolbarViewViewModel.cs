@@ -11,9 +11,26 @@ namespace KF.WPF.Client.Modules.Toolbar.ViewModels
 {
     public class ToolbarViewViewModel : BindableBase
     {
+        #region Fields
+
         private readonly IRegionManager regionManager;
         private readonly IUnityContainer containerRegistry;
         private readonly IUserDataService userDataService;
+
+        #endregion
+
+        #region Properties
+
+        private bool showUser;
+        public bool ShowUser
+        {
+            get { return showUser; }
+            set { SetProperty(ref showUser, value); }
+        }
+
+        #endregion
+
+        #region ctor
 
         public ToolbarViewViewModel(IRegionManager regionManager, IUnityContainer container, IUserDataService userDataService)
         {
@@ -22,18 +39,18 @@ namespace KF.WPF.Client.Modules.Toolbar.ViewModels
             this.userDataService = userDataService;
         }
 
+        #endregion
+
+        #region Methods
+
         public void UpdateUserButtonVisibility()
         {
             ShowUser = userDataService.IsAdmin;
-
         }
 
-        private bool showUser;
-        public bool ShowUser
-        {
-            get { return showUser; }
-            set { SetProperty(ref showUser, value); }
-        }
+        #endregion
+
+        #region Commands
 
         private DelegateCommand<string> _navigate;
         public DelegateCommand<string> Navigate =>
@@ -70,5 +87,7 @@ namespace KF.WPF.Client.Modules.Toolbar.ViewModels
                 this.regionManager.Regions[RegionNames.ContentRegion].Activate(view);
             }
         }
+
+        #endregion
     }
 }

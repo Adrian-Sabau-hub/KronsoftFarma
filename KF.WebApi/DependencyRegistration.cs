@@ -1,6 +1,4 @@
 ﻿using FluentValidation;
-using KF.Common.Model.Models;
-using KF.Common.Model.Models.Validators;
 using KF.CommonModel.Models;
 using KF.CommonModel.Models.Validators;
 using KF.Core.Data;

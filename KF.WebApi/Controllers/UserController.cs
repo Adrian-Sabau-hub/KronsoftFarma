@@ -1,10 +1,9 @@
 ﻿using KF.CommonModel.Models;
+using KF.Core.DomainModels;
 using KF.Services.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Data;
 using System.Text;
-using System.Text.Json;
 
 namespace KF.Web.API.Controllers
 {
@@ -28,20 +27,26 @@ namespace KF.Web.API.Controllers
         {
             try
             {
-                byte[] data = Convert.FromBase64String(userDetails);
-                string decodedString = Encoding.UTF8.GetString(data);
-                var details = decodedString.Split(new char[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
-                var username = details[0];
-                var password = details[1];
+                if(userDetails != null)
+                {
+                    byte[] data = Convert.FromBase64String(userDetails);
+                    string decodedString = Encoding.UTF8.GetString(data);
+                    var details = decodedString.Split(new char[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
+                    var username = details[0];
+                    var password = details[1];
 
-                var user = _userService.ValidateUser(username, password);
-
-                return user;
+                    var user = _userService.ValidateUser(username, password);
+                    return user;
+                }
+                else
+                {
+                    return null;
+                }
+                
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message.ToString());
-                //return (IEnumerable<UserModel>)View();
             }
         }
 
@@ -60,7 +65,6 @@ namespace KF.Web.API.Controllers
             catch (Exception ex)
             {
                 throw new Exception(ex.Message.ToString());
-                //return (IEnumerable<UserModel>)View();
             }
         }
 
@@ -72,9 +76,15 @@ namespace KF.Web.API.Controllers
         {
             try
             {
-                var user = _userService.GetUserById(id);
-
-                return user;
+                if (id != Guid.Empty)
+                {
+                    var user = _userService.GetUserById(id);
+                    return user;
+                }
+                else
+                {
+                    return null;
+                }
             }
             catch (Exception ex)
             {
@@ -90,9 +100,15 @@ namespace KF.Web.API.Controllers
         {
             try
             {
-                //var studentModel = JsonSerializer.Deserialize<StudentModel>(student);
-                UserModel createdUser = _userService.CreateUser(user);
-                return createdUser;
+                if(user != null)
+                {
+                    UserModel createdUser = _userService.CreateUser(user);
+                    return createdUser;
+                }
+                else
+                {
+                    return null;
+                }
             }
             catch (Exception ex)
             {
@@ -108,8 +124,15 @@ namespace KF.Web.API.Controllers
         {
             try
             {
-                _userService.RemoveUserById(id);
-                return true;
+                if (id != Guid.Empty)
+                {
+                    _userService.RemoveUserById(id);
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
             catch (Exception ex)
             {
@@ -125,8 +148,15 @@ namespace KF.Web.API.Controllers
         {
             try
             {
-                UserModel updatedUser = _userService.UpdateUser(user);
-                return updatedUser;
+                if (id != Guid.Empty && user != null)
+                {
+                    UserModel updatedUser = _userService.UpdateUser(user);
+                    return updatedUser;
+                }
+                else
+                {
+                    return null;
+                }
             }
             catch (Exception ex)
             {

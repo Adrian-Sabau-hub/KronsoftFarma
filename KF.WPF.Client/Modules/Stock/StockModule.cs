@@ -1,5 +1,4 @@
-﻿using KF.WPF.Client.Core;
-using KF.WPF.Client.Modules.Stock.Views;
+﻿using KF.WPF.Client.Modules.Stock.Views;
 using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Regions;
@@ -17,7 +16,6 @@ namespace Stock
 
         public void OnInitialized(IContainerProvider containerProvider)
         {
-            //_regionManager.RequestNavigate(RegionNames.ContentRegion, "StockView");
         }
 
         public void RegisterTypes(IContainerRegistry containerRegistry)

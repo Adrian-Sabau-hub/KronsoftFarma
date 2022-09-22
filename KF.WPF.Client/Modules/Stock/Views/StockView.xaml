@@ -97,8 +97,11 @@
 
                     </StackPanel>
 
-                    <DataGrid Name = "Products"
-                              MinHeight="20"
+                    <DataGrid Name = "Stocks" 
+                          MaxHeight="500"
+                          VerticalScrollBarVisibility="Auto"
+                          AutoGenerateColumns="False"
+                          MinHeight="20"
                           IsTextSearchEnabled="True"
                           IsTextSearchCaseSensitive="False"
                           GridLinesVisibility="Vertical"
@@ -110,7 +113,12 @@
                           AlternatingRowBackground = "#d8f3f9" 
                           AlternationCount = "2" 
                           ItemsSource="{Binding Stocks}" 
-                          SelectedItem="{Binding SelectedStock}">
+                          SelectedItem="{Binding SelectedStock}" 
+                          LoadingRow="DataGrid_LoadingRow">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ProductName" Binding="{Binding ProductName}" Width="250"/>
+                            <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity}" Width="250"/>
+                        </DataGrid.Columns>
 
                     </DataGrid>
                 </StackPanel>
@@ -120,15 +128,4 @@
 
     </Grid>
 
-    <!--<Grid>
-        <StackPanel>
-            <TextBlock Text="{Binding SelectedStock.ProductName}" />
-            <StackPanel Orientation="Horizontal">
-                <Button Content="Delete" Command="{Binding DeleteStockCommand}" Width="100" Margin="10"/>
-                <Button Content="Add" Command="{Binding AddStockCommand}" Width="100" Margin="10"/>
-                <Button Content="Update" Command="{Binding UpdateStockCommand}" Width="100" Margin="10"/>
-            </StackPanel>
-            <DataGrid ItemsSource="{Binding Stocks}" SelectedItem="{Binding SelectedStock}" />
-        </StackPanel>
-    </Grid>-->
 </UserControl>

@@ -70,7 +70,7 @@ namespace KF.WPF.Client
             var result = login.ShowDialog();
 
             if(result.Value)
-            base.OnInitialized();
+                base.OnInitialized();
 
             else Application.Current.Shutdown();
         }

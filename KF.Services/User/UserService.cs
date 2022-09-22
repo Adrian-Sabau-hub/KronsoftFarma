@@ -1,7 +1,6 @@
 ﻿using KF.Common.Model.Automapper;
 using KF.CommonModel.Models;
 using KF.Core.Data;
-using KF.Core.DomainModels;
 
 namespace KF.Services.User
 {
@@ -24,60 +23,102 @@ namespace KF.Services.User
 
         public UserModel GetUserById(Guid userId)
         {
-            var user = userRepository.Table.FirstOrDefault(s => s.UserId == userId);
-            return user.ToModel();
+            try
+            {
+                var user = userRepository.Table.FirstOrDefault(s => s.UserId == userId);
+                return user.ToModel();
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message.ToString());
+            }
+            
         }
 
         public IEnumerable<UserModel> GetUsers()
         {
-            var users = userRepository.Table.Select(x => x.ToModel()).ToList();
-            return users;
+            try
+            {
+                var users = userRepository.Table.Select(x => x.ToModel()).ToList();
+                return users;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message.ToString());
+            }
         }
 
         public UserModel CreateUser(UserModel user)
         {
-            if (user == null)
-                throw new ArgumentNullException("Exception user is null");
+            try
+            {
+                if (user == null)
+                    throw new ArgumentNullException("Exception user is null");
 
-            KF.Core.DomainModels.User userEntity = user.ToEntity();
-            userRepository.Insert(userEntity);
+                KF.Core.DomainModels.User userEntity = user.ToEntity();
+                userRepository.Insert(userEntity);
 
-            UserModel createdUser = GetUserById(userEntity.UserId);
-            return createdUser;
+                UserModel createdUser = GetUserById(userEntity.UserId);
+                return createdUser;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message.ToString());
+            }
         }
 
         public bool RemoveUserById(Guid userId)
         {
-            var userEntity = userRepository.Table.FirstOrDefault(x => x.UserId == userId);
-            
-            if (userEntity == null)  return false;
+            try
+            {
+                var userEntity = userRepository.Table.FirstOrDefault(x => x.UserId == userId);
 
-            userRepository.Delete(userEntity);
+                if (userEntity == null) return false;
 
-            return true;
+                userRepository.Delete(userEntity);
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message.ToString());
+            }
         }
 
         public UserModel UpdateUser(UserModel user)
         {
-            if (user == null)
-                throw new ArgumentNullException("Exception user is null");
-            
-            var userEntity = userRepository.TableNoTracking.FirstOrDefault(s => s.UserId == user.UserId);
-            if (userEntity == null) return null;
+            try
+            {
+                if (user == null)
+                    throw new ArgumentNullException("Exception user is null");
 
-            userRepository.Update(user.ToEntity());
-            return GetUserById(user.UserId);
+                var userEntity = userRepository.TableNoTracking.FirstOrDefault(s => s.UserId == user.UserId);
+                if (userEntity == null) return null;
+
+                userRepository.Update(user.ToEntity());
+                return GetUserById(user.UserId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message.ToString());
+            }
         }
 
         public UserModel ValidateUser(string username, string password)
         {
-            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
-                throw new ArgumentNullException("username or password is null or empty");
+            try
+            {
+                if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+                    throw new ArgumentNullException("username or password is null or empty");
 
-            var userEntity = userRepository.TableNoTracking.FirstOrDefault(s => s.Username == username && s.Password == password);
+                var userEntity = userRepository.TableNoTracking.FirstOrDefault(s => s.Username == username && s.Password == password);
 
-            return userEntity.ToModel();
-
+                return userEntity.ToModel();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message.ToString());
+            }
         }
 
         #endregion

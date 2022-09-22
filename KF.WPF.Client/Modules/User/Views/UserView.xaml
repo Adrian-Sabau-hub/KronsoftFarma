@@ -97,8 +97,10 @@
 
                     </StackPanel>
 
-                    <DataGrid Name = "Products"
-                              MinHeight="20"
+                    <DataGrid Name = "Users"
+                          MaxHeight="500"
+                          VerticalScrollBarVisibility="Auto"
+                          MinHeight="20"
                           IsTextSearchEnabled="True"
                           IsTextSearchCaseSensitive="False"
                           GridLinesVisibility="Vertical"

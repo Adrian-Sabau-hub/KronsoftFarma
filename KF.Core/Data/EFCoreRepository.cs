@@ -5,21 +5,55 @@ namespace KF.Core.Data
 {
     public partial class EFCoreRepository<TEntity> : IRepository<TEntity> where TEntity : BaseEntity
     {
+        #region Fields
+
         private readonly IDbContext dbContext;
         private DbSet<TEntity> entities;
 
+        #endregion
+
+        #region Properties
+        protected virtual DbSet<TEntity> Entities
+        {
+            get
+            {
+                if (entities == null)
+                {
+                    entities = dbContext.Set<TEntity>();
+                }
+
+                return entities;
+            }
+        }
+
+        public virtual IQueryable<TEntity> Table => Entities;
+        public virtual IQueryable<TEntity> TableNoTracking => Entities.AsNoTracking();
+
+        public IDbContext DbContext { get => dbContext; }
+
+        #endregion
+
         #region Constructor
+
         public EFCoreRepository(IDbContext dbContext)
         {
             this.dbContext = dbContext;
         }
+
         #endregion
 
         #region Methods
 
         public TEntity GetById(object id)
         {
-            return entities.Find(id);
+            try
+            {
+                return entities.Find(id);
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message.ToString());
+            }
         }
 
         public void Insert(TEntity entity)
@@ -175,25 +209,5 @@ namespace KF.Core.Data
 
         #endregion
 
-        #region Properties
-        protected virtual DbSet<TEntity> Entities
-        {
-            get
-            {
-                if (entities == null)
-                {
-                    entities = dbContext.Set<TEntity>();
-                }
-
-                return entities;
-            }
-        }
-
-        public virtual IQueryable<TEntity> Table => Entities;
-        public virtual IQueryable<TEntity> TableNoTracking => Entities.AsNoTracking();
-
-        public IDbContext DbContext { get => dbContext; }
-
-        #endregion
     }
 }
