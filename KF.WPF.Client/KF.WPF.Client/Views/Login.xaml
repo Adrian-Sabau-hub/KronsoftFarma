@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:prism="http://prismlibrary.com/"             
              prism:ViewModelLocator.AutoWireViewModel="True"
-             Title="User Validation" Height="500" Width="800"
+             Title="Kronsoft Pharma" Height="500" Width="800"
              Background="Transparent"
              WindowStartupLocation="CenterScreen">
 
@@ -82,7 +82,7 @@
 
                 <Label FontSize="18" Foreground="#21428f" FontWeight="Bold" Margin="5" Content="Username" />
                 
-                <TextBox x:Name="usernameBox"  Text="{Binding Username}">
+                <TextBox x:Name="usernameBox"  Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                     
                     <TextBox.Resources>
                         <Style TargetType="Border">
@@ -144,16 +144,7 @@
                         <Style TargetType="Border">
                             <Setter Property="CornerRadius" Value="7"/>
                         </Style>
-                        <Style TargetType="{x:Type Button}">
-                            <Style.Triggers>
-                                <MultiDataTrigger>
-                                    <MultiDataTrigger.Conditions>
-                                        <Condition Binding="{Binding Text.Length, ElementName=usernameBox, UpdateSourceTrigger=PropertyChanged}" Value="0"/>
-                                    </MultiDataTrigger.Conditions>
-                                    <Setter Property="IsEnabled" Value="False"/>
-                                </MultiDataTrigger>
-                            </Style.Triggers>
-                        </Style>
+                        
                     </Button.Resources>
                     
                 </Button>

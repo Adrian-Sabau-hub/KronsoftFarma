@@ -33,8 +33,8 @@ namespace KF.WPF.Client.Views
 
         private void CloseWindow()
         {
-            this.Close();
-            //this.Hide();
+            //this.Close();
+            this.Hide();
         }
     }
 }

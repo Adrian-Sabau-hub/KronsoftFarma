@@ -1,5 +1,4 @@
 ﻿using KF.CommonModel.Models;
-using KF.Core.DomainModels;
 using KF.Services.Product;
 using KF.Services.Stock;
 using Microsoft.AspNetCore.Authorization;

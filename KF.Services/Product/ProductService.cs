@@ -1,7 +1,6 @@
 ﻿using KF.Common.Model.Automapper;
 using KF.CommonModel.Models;
 using KF.Core.Data;
-using KF.Core.DomainModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace KF.Services.Product
@@ -79,8 +78,12 @@ namespace KF.Services.Product
             try
             {
                 var productEntity = productRepository.Table.FirstOrDefault(x => x.ProductId == productId);
+                var stockEntity = stockRepository.Table.FirstOrDefault(x => x.ProductId == productId);
 
                 if (productEntity == null) return false;
+
+                if(stockEntity != null)
+                stockRepository.Delete(stockEntity);
 
                 productRepository.Delete(productEntity);
 

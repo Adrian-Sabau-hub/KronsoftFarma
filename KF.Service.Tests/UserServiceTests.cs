@@ -4,9 +4,6 @@ using KF.Core.Data;
 using KF.Core.DomainModels;
 using KF.Services.User;
 using Microsoft.EntityFrameworkCore;
-using NUnit.Framework;
-using System;
-using System.Linq;
 
 namespace KF.Service.Tests
 {
@@ -91,22 +88,6 @@ namespace KF.Service.Tests
         }
 
         [Test]
-        public void DeleteUserTest()
-        {
-            //arrange
-            UserService service = GetService();
-            User user = CreateUserModel("Test", "Testing", false);
-            UserModel createdUser = service.CreateUser(user.ToModel());
-
-            //act
-            service.RemoveUserById(createdUser.UserId);
-            var deletedUser = service.GetUserById(createdUser.UserId);
-
-            //assert
-            Assert.That(deletedUser == null);
-        }
-
-        [Test]
         public void UpdateUserTest()
         {
             UserService service = GetService();
@@ -140,6 +121,29 @@ namespace KF.Service.Tests
                 service.RemoveUserById(createdUserId);
             }
 
+        }
+
+        [Test]
+        public void DeleteUserTest()
+        {
+            try
+            {
+                //arrange
+                UserService service = GetService();
+                User user = CreateUserModel("Test", "Testing", false);
+                UserModel createdUser = service.CreateUser(user.ToModel());
+
+                //act
+                service.RemoveUserById(createdUser.UserId);
+                var deletedUser = service.GetUserById(createdUser.UserId);
+
+                //assert
+                Assert.That(deletedUser == null);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         private User CreateUserModel(string username, string password, bool isAdmin)

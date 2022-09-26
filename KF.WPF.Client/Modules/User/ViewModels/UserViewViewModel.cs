@@ -3,6 +3,7 @@ using KF.WPF.Client.Core.Models;
 using Prism.Commands;
 using Prism.Mvvm;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,6 +15,15 @@ namespace KF.WPF.Client.Modules.User.ViewModels
     {
         #region Properties
         private readonly UserRestService userRestService;
+        private string searchString;
+
+        public string SearchString
+        {
+            get { return searchString; }
+            set { SetProperty(ref searchString, value); }
+        }
+
+        private List<UserModel> allUsers;
 
         private ObservableCollection<UserModel> users;
         public ObservableCollection<UserModel> Users
@@ -53,11 +63,28 @@ namespace KF.WPF.Client.Modules.User.ViewModels
         private async Task GetUsers()
         {
             Users = new ObservableCollection<UserModel>(await userRestService.GetAllUsersAsync());
+            allUsers = new List<UserModel>(Users.AsEnumerable());
         }
 
         #endregion
 
         #region Commands
+
+        private DelegateCommand _searchStringCommand;
+        public DelegateCommand SearchStringCommand =>
+            _searchStringCommand ?? (_searchStringCommand = new DelegateCommand(ExecuteSearchString, CanExecuteSearchString)).ObservesProperty(() => SearchString);
+
+        async void ExecuteSearchString()
+        {
+            var searchUser = allUsers.Where(x => x.Username.ToLower().StartsWith(SearchString.ToLower()));
+            Users.Clear();
+            Users.AddRange(searchUser);
+        }
+
+        bool CanExecuteSearchString()
+        {
+            return true;
+        }
 
         public DelegateCommand AddUserCommand { get; private set; }
 

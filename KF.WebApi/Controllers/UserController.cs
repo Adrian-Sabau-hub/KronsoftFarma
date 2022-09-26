@@ -1,5 +1,4 @@
 ﻿using KF.CommonModel.Models;
-using KF.Core.DomainModels;
 using KF.Services.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

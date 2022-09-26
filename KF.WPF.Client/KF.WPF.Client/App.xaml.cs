@@ -37,10 +37,7 @@ namespace KF.WPF.Client
             containerRegistry.Register(typeof(object), typeof(Login), "Login");
             ViewModelLocationProvider.Register<Login, LoginViewModel>();
 
-            //containerRegistry.RegisterInstance(typeof(LoginViewModel), new LoginViewModel(Container.GetContainer(), Container.Resolve<RegionManager>()));
             containerRegistry.Register(typeof(object), typeof(MainWindow), "MainWindow");
-            //containerRegistry.RegisterInstance(typeof(MainWindowViewModel), new MainWindowViewModel(Container.GetContainer(), Container.Resolve<RegionManager>()));
-
 
             containerRegistry.RegisterSingleton<ProductRestService>();
             ViewModelLocationProvider.Register<ProductView, ProductViewViewModel>();

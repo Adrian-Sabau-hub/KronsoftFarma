@@ -6,9 +6,6 @@ using KF.Core.DomainModels;
 using KF.Services.Product;
 using KF.Services.Stock;
 using Microsoft.EntityFrameworkCore;
-using NUnit.Framework;
-using System;
-using System.Linq;
 
 namespace KF.Service.Tests
 {
@@ -69,6 +66,7 @@ namespace KF.Service.Tests
         {
             ProductService service = GetService();
             Guid createdProductId = Guid.Empty;
+            StockService stockService = GetStockService();
             try
             {
                 //arrange
@@ -91,24 +89,9 @@ namespace KF.Service.Tests
             }
             finally
             {
+                //stockService.RemoveStockById(StockId);
                 service.RemoveProductById(createdProductId);
             }
-        }
-
-        [Test]
-        public void DeleteProductTest()
-        {
-            //arrange
-            ProductService service = GetService();
-            Product product = CreateProductModel("Test", "Testing", 110, "Test");
-            ProductModel createdProduct = service.CreateProduct(product.ToModel());
-
-            //act
-            service.RemoveProductById(createdProduct.ProductId);
-            var deletedProduct = service.GetProductById(createdProduct.ProductId);
-
-            //assert
-            Assert.That(deletedProduct == null);
         }
 
         [Test]
@@ -147,6 +130,30 @@ namespace KF.Service.Tests
 
         }
 
+        [Test]
+        public void DeleteProductTest()
+        {
+            try
+            {
+                //arrange
+                ProductService service = GetService();
+                Product product = CreateProductModel("Test", "Testing", 110, "Test");
+                ProductModel createdProduct = service.CreateProduct(product.ToModel());
+
+                //act
+                service.RemoveProductById(createdProduct.ProductId);
+                var deletedProduct = service.GetProductById(createdProduct.ProductId);
+
+                //assert
+                Assert.That(deletedProduct == null);
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         private Product CreateProductModel(string name, string description, decimal price, string producer)
         {
             KF.Core.DomainModels.Product product = new()
@@ -161,6 +168,11 @@ namespace KF.Service.Tests
         }
 
         private ProductService GetService()
+        {
+            return new(productRepository, stockRepository);
+        }
+
+        private StockService GetStockService()
         {
             return new(productRepository, stockRepository);
         }

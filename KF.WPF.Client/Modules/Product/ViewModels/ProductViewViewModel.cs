@@ -1,8 +1,10 @@
-﻿using KF.WPF.Client.Core.APIClient.RestServices;
+﻿using KF.WPF.Client.Core;
+using KF.WPF.Client.Core.APIClient.RestServices;
 using KF.WPF.Client.Core.Models;
 using Prism.Commands;
 using Prism.Mvvm;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,6 +16,15 @@ namespace KF.WPF.Client.Modules.Product.ViewModels
     {
         #region Properties
         private readonly ProductRestService productRestService;
+        private string searchString;
+
+        public string SearchString
+        {
+            get { return searchString; }
+            set { SetProperty(ref searchString, value); }
+        }
+
+        private List<ProductModel> allProducts;
 
         private ObservableCollection<ProductModel> products;
         public ObservableCollection<ProductModel> Products
@@ -53,11 +64,28 @@ namespace KF.WPF.Client.Modules.Product.ViewModels
         private async Task GetProducts()
         {
             Products = new ObservableCollection<ProductModel>(await productRestService.GetAllProductsAsync());
+            allProducts = new List<ProductModel>(Products.AsEnumerable());
         }
 
         #endregion
 
         #region Commands
+
+        private DelegateCommand _searchStringCommand;
+        public DelegateCommand SearchStringCommand =>
+            _searchStringCommand ?? (_searchStringCommand = new DelegateCommand(ExecuteSearchString, CanExecuteSearchString)).ObservesProperty(() => SearchString);
+
+        async void ExecuteSearchString()
+        {
+            var searchProduct = allProducts.Where(x => x.Name.ToLower().StartsWith(SearchString.ToLower()));
+            Products.Clear();
+            Products.AddRange(searchProduct);
+        }
+
+        bool CanExecuteSearchString()
+        {
+            return true;
+        }
 
         public DelegateCommand AddProductCommand { get; private set; }
 
@@ -65,17 +93,17 @@ namespace KF.WPF.Client.Modules.Product.ViewModels
         {
             try
             {
-                //get new student
-                ProductModel newStudent = Products.FirstOrDefault(s => s.ProductId == Guid.Empty);
+                //get new product
+                ProductModel newProduct = Products.FirstOrDefault(s => s.ProductId == Guid.Empty);
 
-                if (newStudent == null)
+                if (newProduct == null)
                 {
                     MessageBox.Show("Please enter a new product in the grid.");
                     return;
                 }
 
                 // send student 
-                await productRestService.CreateProductAsync(newStudent);
+                await productRestService.CreateProductAsync(newProduct);
 
                 //refresh lista
                 await GetProducts();

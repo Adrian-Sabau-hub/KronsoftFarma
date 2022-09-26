@@ -8,12 +8,14 @@ using Prism.Mvvm;
 using Prism.Regions;
 using Prism.Unity;
 using System;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Windows;
 using Unity;
 
 namespace KF.WPF.Client.ViewModels
 {
-    public class LoginViewModel : BindableBase
+    public class LoginViewModel : BindableBase,INotifyPropertyChanged
     {
         #region Properties
         private readonly UserRestService userRestService;
@@ -22,18 +24,26 @@ namespace KF.WPF.Client.ViewModels
         private readonly IRegionManager _regionManager;
         private readonly IUserDataService userDataService;
 
+        //public ObservableCollection<LoginViewModel> CanExecuteValidateUser;
+
         private string username;// = "Adrian";
         public string Username
         {
             get { return username; }
-            set { SetProperty(ref username, value); }
+            set 
+            { 
+                SetProperty(ref username, value);
+            }
         }
 
         private string password;// = "1234567890";
         public string Password
         {
             get { return password; }
-            set { SetProperty(ref password, value); }
+            set
+            {
+                SetProperty(ref password, value);
+            }
         }
 
         //wpf-prism-7-login
@@ -67,7 +77,7 @@ namespace KF.WPF.Client.ViewModels
 
         private DelegateCommand<Window> _validateUser;
         public DelegateCommand<Window> ValidateUser =>
-            _validateUser ?? (_validateUser = new DelegateCommand<Window>(ExecuteValidateUser, CanExecuteValidateUser));
+            _validateUser ?? (_validateUser = new DelegateCommand<Window>(ExecuteValidateUser, CanExecuteValidateUser)).ObservesProperty(() => Username).ObservesProperty(() => Password);
 
         async void ExecuteValidateUser(Window window)
         {
@@ -93,7 +103,7 @@ namespace KF.WPF.Client.ViewModels
 
         bool CanExecuteValidateUser(Window window)
         {
-            return true;
+            return !string.IsNullOrEmpty(Username) && !string.IsNullOrEmpty(Password);// && Username.Length >= 3 && Password.Length >= 3;
         }
 
         #endregion

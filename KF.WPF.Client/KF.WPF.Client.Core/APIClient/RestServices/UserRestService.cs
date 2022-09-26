@@ -82,7 +82,6 @@ namespace KF.WPF.Client.Core.APIClient.RestServices
                 using (HttpClient httpClient = GetClient())
                 {
                     var encoded = Convert.ToBase64String(Encoding.UTF8.GetBytes(username + ":" + password));
-                    //Convert.FromBase64CharArray("YTpi")
                     
                     var json = JsonConvert.SerializeObject(encoded);
                     var content = new StringContent(json, Encoding.UTF8, "application/json");

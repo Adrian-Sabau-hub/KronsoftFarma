@@ -3,18 +3,20 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:prism="http://prismlibrary.com/"             
              prism:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:cont="clr-namespace:User.Converter"
              Background="Transparent">
 
     <Grid>
-
-        <ScrollViewer CanContentScroll="True" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+        <Grid.Resources>
+            <cont:PasswordConverter x:Key="PasswordConverter"/>
+        </Grid.Resources>
 
             <Border CornerRadius="10 0 0 10">
 
                 <Border.Background>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                        <GradientStop Color=" #21428f" Offset="0"/>
-                        <GradientStop Color="#64b5e7" Offset="1"/>
+                        <GradientStop Color=" #64b5e7" Offset="0"/> 
+                        <GradientStop Color="#21428f" Offset="1"/>
                     </LinearGradientBrush>
                 </Border.Background>
 
@@ -38,28 +40,6 @@
                             FontSize="18" 
                             HorizontalContentAlignment="Center" 
                             VerticalContentAlignment="Center" 
-                            Content="Delete" 
-                            Command="{Binding DeleteUserCommand}" 
-                            Width="100" 
-                            Margin="20">
-
-                            <Button.Resources>
-                                <Style TargetType="Border">
-                                    <Setter Property="CornerRadius" Value="7"/>
-                                </Style>
-                            </Button.Resources>
-
-                        </Button>
-
-                        <Button Background="#21428f" 
-                            Foreground="White" 
-                            BorderBrush="#64b5e7" 
-                            BorderThickness="1" 
-                            FontWeight="Bold" 
-                            Height="28" 
-                            FontSize="18" 
-                            HorizontalContentAlignment="Center" 
-                            VerticalContentAlignment="Center" 
                             Content="Add" 
                             Command="{Binding AddUserCommand}" 
                             Width="100" 
@@ -70,6 +50,9 @@
                                     <Setter Property="CornerRadius" Value="7"/>
                                 </Style>
                             </Button.Resources>
+                            <Button.BitmapEffect>
+                                <DropShadowBitmapEffect Color="Black" Direction="320" Softness="1" ShadowDepth="10" Opacity="0.5" />
+                            </Button.BitmapEffect>
 
                         </Button>
 
@@ -92,14 +75,81 @@
                                     <Setter Property="CornerRadius" Value="7"/>
                                 </Style>
                             </Button.Resources>
+                            <Button.BitmapEffect>
+                                <DropShadowBitmapEffect Color="Black" Direction="320" Softness="1" ShadowDepth="10" Opacity="0.5" />
+                            </Button.BitmapEffect>
 
                         </Button>
 
-                    </StackPanel>
+                    <Button Background="#21428f" 
+                            Foreground="White" 
+                            BorderBrush="#64b5e7" 
+                            BorderThickness="1" 
+                            FontWeight="Bold" 
+                            Height="28" 
+                            FontSize="18" 
+                            HorizontalContentAlignment="Center" 
+                            VerticalContentAlignment="Center" 
+                            Content="Delete" 
+                            Command="{Binding DeleteUserCommand}" 
+                            Width="100" 
+                            Margin="20">
 
-                    <DataGrid Name = "Users"
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="7"/>
+                            </Style>
+                        </Button.Resources>
+
+                        <Button.BitmapEffect>
+                            <DropShadowBitmapEffect Color="Black" Direction="320" Softness="1" ShadowDepth="10" Opacity="0.5" />
+                        </Button.BitmapEffect>
+
+                    </Button>
+
+                    <TextBox x:Name="searchBox" 
+                             Height="28" 
+                             FontSize="18"
+                             Margin="20,20,2,20" 
+                             Width="230"
+                             BorderBrush="#64b5e7"
+                             BorderThickness="1" 
+                             HorizontalContentAlignment="Center" 
+                             VerticalContentAlignment="Center" 
+                             Text="{Binding SearchString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                    <Button Background="#21428f" 
+                            Foreground="White" 
+                            BorderBrush="#64b5e7" 
+                            BorderThickness="1" 
+                            FontWeight="Bold" 
+                            Height="28" 
+                            FontSize="18" 
+                            HorizontalContentAlignment="Center" 
+                            VerticalContentAlignment="Center" 
+                            Content="Search" 
+                            Width="100" 
+                            Margin="2,20,20,20"
+                            Command="{Binding SearchStringCommand}">
+
+                        <Button.BitmapEffect>
+                            <DropShadowBitmapEffect Color="Black" Direction="320" Softness="1" ShadowDepth="10" Opacity="0.5" />
+                        </Button.BitmapEffect>
+
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="7"/>
+                            </Style>
+                        </Button.Resources>
+
+                    </Button>
+
+                </StackPanel>
+
+                <DataGrid Name = "Users"
                           MaxHeight="500"
                           VerticalScrollBarVisibility="Auto"
+                          AutoGenerateColumns="False"
                           MinHeight="20"
                           IsTextSearchEnabled="True"
                           IsTextSearchCaseSensitive="False"
@@ -112,13 +162,47 @@
                           AlternatingRowBackground = "#d8f3f9" 
                           AlternationCount = "2" 
                           ItemsSource="{Binding Users}" 
-                          SelectedItem="{Binding SelectedUser}">
+                          SelectedItem="{Binding SelectedUser}"
+                          LoadingRow="DataGrid_LoadingRow">
+                    
+                    <DataGrid.Columns>
+                        
+                        <DataGridTextColumn Header="Username" Binding="{Binding Username}" Width="230">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style>
+                                    <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                                    <Setter Property="TextBlock.TextAlignment" Value="Center"/>
+                                    <Setter Property="TextBlock.MinHeight" Value="30"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                        
+                        <DataGridTextColumn Header="Password" Binding="{Binding Password, Converter={StaticResource PasswordConverter}}" Width="230">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style>
+                                    <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                                    <Setter Property="TextBlock.TextAlignment" Value="Center"/>
+                                    <Setter Property="TextBlock.MinHeight" Value="30"/>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
 
-                    </DataGrid>
+                        <DataGridCheckBoxColumn Header="IsAdmin" Binding="{Binding IsAdmin}" Width="230">
+                            <DataGridCheckBoxColumn.ElementStyle>
+                                <Style>
+                                    <Setter Property="CheckBox.HorizontalAlignment" Value="Center"/>
+                                    <Setter Property="CheckBox.MinHeight" Value="30"/>
+                                </Style>
+                            </DataGridCheckBoxColumn.ElementStyle>
+                        </DataGridCheckBoxColumn>
+                        
+                    </DataGrid.Columns>
+
+                </DataGrid>
+                    
                 </StackPanel>
+                
             </Border>
-
-        </ScrollViewer>
 
     </Grid>
 

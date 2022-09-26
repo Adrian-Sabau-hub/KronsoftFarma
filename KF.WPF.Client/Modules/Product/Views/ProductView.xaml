@@ -11,8 +11,8 @@
 
             <Border.Background>
                 <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                    <GradientStop Color=" #21428f" Offset="0"/>
-                    <GradientStop Color="#64b5e7" Offset="1"/>
+                    <GradientStop Color=" #64b5e7" Offset="0"/>
+                    <GradientStop Color="#21428f" Offset="1"/>
                 </LinearGradientBrush>
             </Border.Background>
 
@@ -27,27 +27,7 @@
 
                     <StackPanel Orientation="Horizontal">
 
-                        <Button Background="#21428f" 
-                            Foreground="White" 
-                            BorderBrush="#64b5e7" 
-                            BorderThickness="1" 
-                            FontWeight="Bold" 
-                            Height="28" 
-                            FontSize="18" 
-                            HorizontalContentAlignment="Center" 
-                            VerticalContentAlignment="Center" 
-                            Content="Delete" 
-                            Command="{Binding DeleteProductCommand}" 
-                            Width="100" 
-                            Margin="20">
-
-                            <Button.Resources>
-                                <Style TargetType="Border">
-                                    <Setter Property="CornerRadius" Value="7"/>
-                                </Style>
-                            </Button.Resources>
-
-                        </Button>
+                        
 
                         <Button Background="#21428f" 
                             Foreground="White" 
@@ -69,7 +49,11 @@
                                 </Style>
                             </Button.Resources>
 
-                        </Button>
+                        <Button.BitmapEffect>
+                            <DropShadowBitmapEffect Color="Black" Direction="320" Softness="1" ShadowDepth="10" Opacity="0.5" />
+                        </Button.BitmapEffect>
+
+                    </Button>
 
                         <Button Background="#21428f" 
                             Foreground="White" 
@@ -91,9 +75,76 @@
                                 </Style>
                             </Button.Resources>
 
-                        </Button>
+                        <Button.BitmapEffect>
+                            <DropShadowBitmapEffect Color="Black" Direction="320" Softness="1" ShadowDepth="10" Opacity="0.5" />
+                        </Button.BitmapEffect>
 
-                    </StackPanel>
+                    </Button>
+
+                    <Button Background="#21428f" 
+                            Foreground="White" 
+                            BorderBrush="#64b5e7" 
+                            BorderThickness="1" 
+                            FontWeight="Bold" 
+                            Height="28" 
+                            FontSize="18" 
+                            HorizontalContentAlignment="Center" 
+                            VerticalContentAlignment="Center" 
+                            Content="Delete" 
+                            Command="{Binding DeleteProductCommand}" 
+                            Width="100" 
+                            Margin="20">
+
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="7"/>
+                            </Style>
+                        </Button.Resources>
+
+                        <Button.BitmapEffect>
+                            <DropShadowBitmapEffect Color="Black" Direction="320" Softness="1" ShadowDepth="10" Opacity="0.5" />
+                        </Button.BitmapEffect>
+
+                    </Button>
+
+                    <TextBox x:Name="searchBox" 
+                             Height="28" 
+                             FontSize="18"
+                             Margin="20,20,2,20" 
+                             Width="230"
+                             BorderBrush="#64b5e7"
+                             BorderThickness="1" 
+                             HorizontalContentAlignment="Center" 
+                             VerticalContentAlignment="Center" 
+                             Text="{Binding SearchString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                    <Button Background="#21428f" 
+                            Foreground="White" 
+                            BorderBrush="#64b5e7" 
+                            BorderThickness="1" 
+                            FontWeight="Bold" 
+                            Height="28" 
+                            FontSize="18" 
+                            HorizontalContentAlignment="Center" 
+                            VerticalContentAlignment="Center" 
+                            Content="Search" 
+                            Width="100" 
+                            Margin="2,20,20,20"
+                            Command="{Binding SearchStringCommand}">
+                        
+                            <Button.BitmapEffect>
+                                <DropShadowBitmapEffect Color="Black" Direction="320" Softness="1" ShadowDepth="10" Opacity="0.5" />
+                            </Button.BitmapEffect>
+
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="7"/>
+                            </Style>
+                        </Button.Resources>
+
+                    </Button>
+
+                </StackPanel>
 
                         <DataGrid Name = "Products"
                           MaxHeight="500"
@@ -113,19 +164,49 @@
                           ItemsSource="{Binding Products}" 
                           SelectedItem="{Binding SelectedProduct}"
                           LoadingRow="DataGrid_LoadingRow">
+                            
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="230" />
+                                
+                                <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="230">
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style>
+                                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                                            <Setter Property="TextBlock.TextAlignment" Value="Center"/>
+                                            <Setter Property="TextBlock.MinHeight" Value="30"/>
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                </DataGridTextColumn>
+                                
                                 <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="1060" >
                                     <DataGridTextColumn.ElementStyle>
                                         <Style>
                                             <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
-                                            <Setter Property="TextBlock.TextAlignment" Value="Left"/>
-                                            <Setter Property="TextBlock.MinHeight" Value="50"/>
+                                            <Setter Property="TextBlock.TextAlignment" Value="Center"/>
+                                            <Setter Property="TextBlock.MinHeight" Value="30"/>
                                         </Style>
                                     </DataGridTextColumn.ElementStyle>
                                 </DataGridTextColumn>
-                                <DataGridTextColumn Header="Price" Binding="{Binding Price}" Width="80"/>
-                                <DataGridTextColumn Header="Producer" Binding="{Binding Producer}" Width="100"/>
+                                
+                                <DataGridTextColumn Header="Price" Binding="{Binding Price}" Width="80">
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style>
+                                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                                            <Setter Property="TextBlock.TextAlignment" Value="Center"/>
+                                            <Setter Property="TextBlock.MinHeight" Value="30"/>
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                </DataGridTextColumn>
+                                
+                                <DataGridTextColumn Header="Producer" Binding="{Binding Producer}" Width="100">
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style>
+                                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                                            <Setter Property="TextBlock.TextAlignment" Value="Center"/>
+                                            <Setter Property="TextBlock.MinHeight" Value="30"/>
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                </DataGridTextColumn>
+                                
                             </DataGrid.Columns>
 
                         </DataGrid>

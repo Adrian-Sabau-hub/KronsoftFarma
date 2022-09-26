@@ -1,5 +1,4 @@
 ﻿using KF.CommonModel.Models;
-using KF.Core.DomainModels;
 using KF.Services.Product;
 using KF.Services.Stock;
 using Microsoft.AspNetCore.Authorization;
@@ -9,7 +8,6 @@ namespace KF.WebApi.Controllers
 {
     [Authorize]
     [ApiController]
-    //[Route("[/api/v1]")]
 
     public class ProductController : Controller
     {
