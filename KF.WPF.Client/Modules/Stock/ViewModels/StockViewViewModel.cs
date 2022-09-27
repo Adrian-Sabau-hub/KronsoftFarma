@@ -74,9 +74,9 @@ namespace KF.WPF.Client.Modules.Stock.ViewModels
 
         private async Task GetStocks()
         {
+            Products = new ObservableCollection<ProductModel>(await productRestService.GetAllProductsAsync());
             Stocks = new ObservableCollection<StockModel>(await stockRestService.GetAllStocksAsync());
             allStocks = new List<StockModel>(Stocks.AsEnumerable());
-            //Products = new ObservableCollection<ProductModel>(await productRestService.GetAllProductsAsync());
         }
 
         #endregion

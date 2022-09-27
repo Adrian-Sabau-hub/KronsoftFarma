@@ -97,6 +97,8 @@ namespace KF.Core.Data
 
             try
             {
+                
+
                 Entities.Update(entity);
                 DbContext.SaveChanges();
             }

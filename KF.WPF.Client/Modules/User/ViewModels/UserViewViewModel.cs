@@ -130,7 +130,15 @@ namespace KF.WPF.Client.Modules.User.ViewModels
                 Guid userId = selectedUser.UserId;
 
                 //send request to update 
-                await userRestService.UpdateUserAsync(userId, SelectedUser);
+
+                var user = new UserModel
+                {
+                    UserId = selectedUser.UserId,
+                    Username = selectedUser.Username,
+                    Password = selectedUser.Password,
+                    IsAdmin = selectedUser.IsAdmin,
+                };
+                await userRestService.UpdateUserAsync(userId, user);
 
                 //refresh lista
                 await GetUsers();

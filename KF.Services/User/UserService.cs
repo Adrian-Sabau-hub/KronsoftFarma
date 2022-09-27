@@ -25,7 +25,7 @@ namespace KF.Services.User
         {
             try
             {
-                var user = userRepository.Table.FirstOrDefault(s => s.UserId == userId);
+                var user = userRepository.TableNoTracking.FirstOrDefault(s => s.UserId == userId);
                 return user.ToModel();
             }
             catch(Exception ex)
@@ -39,7 +39,7 @@ namespace KF.Services.User
         {
             try
             {
-                var users = userRepository.Table.Select(x => x.ToModel()).ToList();
+                var users = userRepository.TableNoTracking.Select(x => x.ToModel()).ToList();
                 return users;
             }
             catch (Exception ex)
@@ -71,7 +71,7 @@ namespace KF.Services.User
         {
             try
             {
-                var userEntity = userRepository.Table.FirstOrDefault(x => x.UserId == userId);
+                var userEntity = userRepository.TableNoTracking.FirstOrDefault(x => x.UserId == userId);
 
                 if (userEntity == null) return false;
 

@@ -163,6 +163,7 @@
                           AlternationCount = "2" 
                           ItemsSource="{Binding Users}" 
                           SelectedItem="{Binding SelectedUser}"
+                          
                           LoadingRow="DataGrid_LoadingRow">
                     
                     <DataGrid.Columns>
@@ -187,7 +188,7 @@
                             </DataGridTextColumn.ElementStyle>
                         </DataGridTextColumn>
 
-                        <DataGridCheckBoxColumn Header="IsAdmin" Binding="{Binding IsAdmin}" Width="230">
+                        <DataGridCheckBoxColumn Header="IsAdmin" Binding="{Binding IsAdmin, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="230">
                             <DataGridCheckBoxColumn.ElementStyle>
                                 <Style>
                                     <Setter Property="CheckBox.HorizontalAlignment" Value="Center"/>
